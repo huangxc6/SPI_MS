@@ -3,9 +3,9 @@
 // Copyright (c) 2014-2023 All rights reserved
 // -----------------------------------------------------------------------------
 // Author : Huang Xiaochong huangxc@stu.pku.edu.cn
-// File   : spi_master.v
-// Create : 2023-11-01 10:17:52
-// Revise : 2023-11-02 10:48:09
+// File   : spi_master_V0.1.v
+// Create : 2023-11-03 22:09:33
+// Revise : 2023-11-03 22:09:33
 // Editor : sublime text4, tab size (4)
 // -----------------------------------------------------------------------------
 /* Description:
@@ -30,7 +30,7 @@ module spi_master (
 	output reg			sck 		,
 	output wire			ssn 
 );
-	wire spen 		; 	// spi enable signal
+	wire   spen 		   ; 	// spi enable signal
 	assign spen = spcon[0] ;
 
 	// cpol = 1, Active-low clocks selected. In idle state SCK is high.
@@ -182,6 +182,8 @@ module spi_master (
 		end else begin
 			if (tr_en && sck_edge_cnt == 5'd17) begin
 				tr_done <= 1'b1;
+			end else begin
+				tr_done <= 1'b0 ;
 			end
 		end
 	end

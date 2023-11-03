@@ -5,7 +5,7 @@
 // Author : Huang Xiaochong huangxc@stu.pku.edu.cn
 // File   : spi_master.v
 // Create : 2023-11-01 10:17:52
-// Revise : 2023-11-02 10:48:09
+// Revise : 2023-11-03 22:03:27
 // Editor : sublime text4, tab size (4)
 // -----------------------------------------------------------------------------
 /* Description:
@@ -13,14 +13,23 @@
 */
 // Version: 0.1
 // -----------------------------------------------------------------------------
+/* Description:
+	modify the | ssn | sck | data_o | SPI Baud Rate Register
+
+*/
+// Version: 0.2
+// -----------------------------------------------------------------------------
 
 module spi_master (
 	input wire			clk  	  	,    // Clock
 	input wire			rst_n	  	,  	 // Asynchronous reset active low
 
-	input wire	[7:0]	data 		,
+	input wire	[7:0]	data_m 		,
 	input wire	[7:0]	spcon 		,
 	input wire	[7:0]	spibr 		,
+	input wire  [7:0]	spssn		,
+
+	output reg  [7:0]   data_r_m	,    // the 8 bits data register
 
 	// spi data wire
 	input wire			miso 		,
@@ -28,10 +37,11 @@ module spi_master (
 
 	// spi clk and slave select
 	output reg			sck 		,
-	output wire			ssn 
+	output wire	[7:0]	ssn 
 );
-	wire spen 		; 	// spi enable signal
-	assign spen = spcon[0] ;
+	wire   tr_en 		   				 ; 	
+	assign tr_en = ~(&spssn) && spcon[0] ; // tx or rx enable
+	assign ssn = spssn 					 ;
 
 	// cpol = 1, Active-low clocks selected. In idle state SCK is high.
 	// cpol = 0, Active-high clocks selected. In idle state SCK is low.
@@ -42,47 +52,28 @@ module spi_master (
 
 	reg  [7:0] clk_cnt 	  ; 
 	wire [7:0] clk_div    ; // div the clk to generate the spi clk
+	wire [3:0] sppr_add1  ;
 
-	assign clk_div = spibr ;
+	assign sppr_add1 = spibr[6:4] + 3'b001 ;
+	assign clk_div   = sppr_add1 << spibr[2:0] ; 
 
 	reg  [4:0] sck_edge_cnt   ; // trace the sck edge
 	reg 	   sck_edge_level ; // trace the sck level
 
-	reg tr_en   ; // tx or rx enable
 	reg tr_done ; // when tx or rx done , set it
 
 	reg [2:0] bit_count ; // bit count to transfer data
-	reg [7:0] data_r	; // the 8 bits data register
 
-	// generate the enable signal
-	always @(posedge clk or negedge rst_n) begin
-		if(~rst_n) begin
-			tr_en <= 1'b0;
-		end 
-		else begin
-			if (spen) begin
-				tr_en <= 1'b1 ;
-			end
-			else begin
-				if (tr_done) begin
-					tr_en <= 1'b0 ;
-				end
-				else begin
-					tr_en <= tr_en ;
-				end
-			end
-		end
-	end
 
 	// clk count for div
 	always @(posedge clk or negedge rst_n) begin 
 		if(~rst_n) begin
-			clk_cnt <= 8'd0;
+			clk_cnt <= 8'd1;
 		end 
 		else begin
-			if (spen) begin
+			if (tr_en) begin
 				if (clk_cnt == clk_div) begin
-					clk_cnt <= 1'b0 ;
+					clk_cnt <= 8'd1 ;
 				end
 				else begin
 					clk_cnt <= clk_cnt + 1'b1 ;
@@ -104,7 +95,7 @@ module spi_master (
 		else begin
 			if (tr_en) begin
 				if (clk_cnt == clk_div) begin
-					if (sck_edge_cnt == 5'd17) begin
+					if (sck_edge_cnt == 5'd16) begin
 						sck_edge_level <= 1'b0 ;
 						sck_edge_cnt <= 5'd0 ;
 					end
@@ -127,7 +118,7 @@ module spi_master (
 	always @(posedge clk or negedge rst_n) begin
 		if(~rst_n) begin
 			sck       <= cpol ;
-			data_r    <= 8'd0 ;
+			data_r_m    <= 8'd0 ;
 			bit_count <= 3'b111 ;
 			mosi      <= 1'b0 ;
 		end else begin
@@ -137,25 +128,22 @@ module spi_master (
 						1, 3, 5, 7, 9, 11, 13, 15:begin
 							sck <= ~sck ;
 							if (cpha) begin  
-								mosi <= data [bit_count]     ;
+								mosi <= data_m [bit_count]     ;
 								bit_count <= bit_count - 1'b1;
 							end
 							else begin
-								data_r <= {data_r[6:0], miso} ; 
+								data_r_m <= {data_r_m[6:0], miso} ; 
 							end
 						end
 						2, 4, 6, 8, 10, 12, 14, 16:begin
 							sck <= ~sck ;
 							if (cpha) begin
-								data_r <= {data_r[6:0], miso} ;
+								data_r_m <= {data_r_m[6:0], miso} ;
 							end
 							else begin
-								mosi <= data [bit_count] 	  ;
+								mosi <= data_m [bit_count] 	  ;
 								bit_count <= bit_count - 1'b1 ;
 							end
-						end
-						17:begin
-							sck <= cpol ;
 						end
 					endcase
 				end
@@ -168,20 +156,22 @@ module spi_master (
 					bit_count <= 4'd7 ;
 				end
 				else begin
-					mosi <= data[7] ;
-					bit_count <= 4'd7 ;
+					mosi <= data_m[7] ;
+					bit_count <= 4'd6 ;
 				end
 			end
 		end
 	end
 
-	// if tr_done = 1, 8 bits data is being transfer
+	// if tr_done = 1, 8 bits data_m is being transfer
 	always @(posedge clk or negedge rst_n) begin
 		if(~rst_n) begin
 			tr_done <= 1'b0;
 		end else begin
-			if (tr_en && sck_edge_cnt == 5'd17) begin
-				tr_done <= 1'b1;
+			if (tr_en && sck_edge_cnt == 5'd15) begin
+				tr_done <= 1'b1 ;
+			end else begin
+				tr_done <= 1'b0 ;
 			end
 		end
 	end

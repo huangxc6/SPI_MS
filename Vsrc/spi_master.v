@@ -21,22 +21,23 @@
 // -----------------------------------------------------------------------------
 
 module spi_master (
-	input wire			clk  	  	,    // Clock
-	input wire			rst_n	  	,  	 // Asynchronous reset active low
+	input wire			clk  	  	  ,    // Clock
+	input wire			rst_n	      ,  	 // Asynchronous reset active low
 
-	input wire	[7:0]	data_m 		,
-	input wire	[7:0]	spcon 		,
-	input wire	[7:0]	spibr 		,
-	input wire  [7:0]	spssn		,
+	input wire	[7:0]	data_m 		  ,
+	input wire	[7:0]	spcon 		  ,
+	input wire	[7:0]	spibr 		  ,
+	input wire  [7:0]	spssn		  ,
 
-	output reg  [7:0]   data_r_m	,    // the 8 bits data register
+	output reg  [7:0]   data_r_m	  ,    // the 8 bits data register
+    output reg          data_finish_m ,
 
 	// spi data wire
-	input wire			miso 		,
-	output reg			mosi 		,
-
+	input wire			miso 		  ,
+	output reg			mosi 		  ,
+ 
 	// spi clk and slave select
-	output reg			sck 		,
+	output reg			sck 		  ,
 	output wire	[7:0]	ssn 
 );
 	wire   tr_en 		   				 ; 	
@@ -162,6 +163,11 @@ module spi_master (
 			end
 		end
 	end
+
+	always @(*) begin
+		data_finish_m = !bit_count;
+	end
+
 
 	// if tr_done = 1, 8 bits data_m is being transfer
 	always @(posedge clk or negedge rst_n) begin

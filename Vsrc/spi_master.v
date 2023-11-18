@@ -5,7 +5,7 @@
 // Author : Huang Xiaochong huangxc@stu.pku.edu.cn
 // File   : spi_master.v
 // Create : 2023-11-01 10:17:52
-// Revise : 2023-11-03 22:03:27
+// Revise : 2023-11-18 10:52:04
 // Editor : sublime text4, tab size (4)
 // -----------------------------------------------------------------------------
 /* Description:
@@ -41,7 +41,7 @@ module spi_master (
 	output wire	[7:0]	ssn 
 );
 	wire   tr_en 		   				 ; 	
-	assign tr_en = ~(&spssn) && spcon[0] ; // tx or rx enable
+	assign tr_en = ~(&spssn) && spcon[6] ; // tx or rx enable
 	assign ssn = spssn 					 ;
 
 	// cpol = 1, Active-low clocks selected. In idle state SCK is high.

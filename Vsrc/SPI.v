@@ -1,10 +1,10 @@
 module SPI (
     input wire clk,
-    input wire rst,
+    input wire rst_n,
     input wire [2:0]sfraddr_w,
     input wire [2:0]sfraddr_r,
     input wire sfrwe,
-    input wire [7:0]spssn,
+    input wire [7:0]spssn_i,
 //    input wire [7:0]sfrdatai,
 //    input wire [2:0]spiaddr_i,
     input wire [7:0]spidata_i,
@@ -14,14 +14,14 @@ module SPI (
     input wire ssn,
 
 
-    output wire [7:0]spssn,
+    output wire [7:0]spssn_o,
     output wire [7:0]sfrdatao,
 
     output wire intspi,
     output wire mosio,
     output wire misoo,
     output wire scko,
-    output wire tri
+    output wire SPC0
 
     
 
@@ -45,7 +45,7 @@ wire data_finish_s;
 
 wire miso_m,mosi_m,sck_m;
 wire miso_s,mosi_s,sck_s;
-assign tri    = SPICR2[0];
+assign SPC0   = SPICR2[0];
 assign intspi = ~ssn;
 assign mosio  = (SPICR2[0])?(mosi_m):1'bZ;
 assign misoo  = (SPICR2[0])?(miso_s):1'bZ;
@@ -53,22 +53,40 @@ assign scko   = (SPICR2[0])?(sck_m) :1'bZ;
 assign miso_m = misoi;
 assign mosi_s = mosii;
 assign sck_s  = scki ;
-spi_master u_m(
-    .clk(clk)                       ,
-    .rst_n(rst)                     ,
-    .data_m(SPIDR1)                 ,
-    .spcon(SPICR1)                  ,
-    .spibr(SPIBR)                   ,
-    .data_r_m(SPIDR2_m)             ,
-    .data_finish_m(data_finish_m)   ,
-    .miso(miso_m)                   ,
-    .mosi(mosi_m)                   ,
-    .sck(sck_m)                     ,
-    .ssn(spssn)
-    );
+
+// spi_master u_m(
+//     .clk(clk)                       ,
+//     .rst_n(rst_n)                     ,
+//     .data_m(SPIDR1)                 ,
+//     .spcon(SPICR1)                  ,
+//     .spibr(SPIBR)                   ,
+//     .data_r_m(SPIDR2_m)             ,
+//     .data_finish_m(data_finish_m)   ,
+//     .miso(miso_m)                   ,
+//     .mosi(mosi_m)                   ,
+//     .sck(sck_m)                     ,
+//     .ssn(spssn)
+//     );
+    spi_master inst_spi_master
+        (
+            .clk      (clk),
+            .rst_n    (rst_n),
+            .data_m   (SPIDR1),
+            .spcon    (SPICR1),
+            .spibr    (SPIBR),
+            .spssn    (spssn_i),
+            .data_r_m (SPIDR2_m),
+            .data_finish_m(data_finish_m)   ,
+            .miso     (miso_m),
+            .mosi     (mosi_m),
+            .sck      (sck_m),
+            .ssn      (spssn_o)
+        );
+
+
 spi_slave  u_s(
     .data_s(SPIDR1)                 ,
-    .rst(rst)                       ,
+    .rst(rst_n)                       ,
     .spcon_s(SPICR1)                ,
     .data_r_s(SPIDR2_s)             ,
     .data_finish_s(data_finish_s)   ,
@@ -100,12 +118,12 @@ always @(*) begin
 end
 
 
-always @(posedge clk or negedge rst) begin  
-    if (rst == 0) begin        // 当复位信号为低时，所有寄存器清零，地址和使能信号复位  
+always @(posedge clk or negedge rst_n) begin  
+    if (rst_n == 0) begin        // 当复位信号为低时，所有寄存器清零，地址和使能信号复位  
         SPICR1 <= 8'b0;  
         SPICR2 <= 8'b0;  
         SPIBR <= 8'b0;  
-        SPIDR  <= 8'b0;  
+        SPIDR1  <= 8'b0;  
 //        SPISR  <= 8'b0;  
 //        SPIDR1_m <= 8'b0;  
 //        SPIDR2_m <= 8'b0; 

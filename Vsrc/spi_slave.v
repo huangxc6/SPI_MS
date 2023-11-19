@@ -5,7 +5,7 @@ module spi_slave (
 	input   wire  [7:0]	 spcon_s 		,
 	output 	reg   [7:0]  data_r_s	    , // the 8 bits data_s register
     output  reg          data_finish_s  ,
-    input   wire         rst,
+    input   wire         rst_n,
 	// spi data_s transfer wire
 	input  wire			mosi 		,
 	output reg			miso 		,
@@ -20,7 +20,7 @@ module spi_slave (
 	wire cpol, cpha ; 
 	assign {cpol, cpha} = spcon_s[2:1] ;
 	wire   ssn_n 					   ;
-    assign ssn_n = ~ssn ^ rst;
+    assign ssn_n = ~ssn ^ rst_n;
 
 	wire   clk 					   ;
 	assign clk = sck ^ cpol ^ cpha ;
@@ -45,7 +45,7 @@ module spi_slave (
 	end
 
 	always @(negedge clk or posedge ssn_n ) begin
-		if (!rst)begin
+		if (!rst_n)begin
 			miso     <= 1'b0    ;
 			count    <= 0 		;
 		end

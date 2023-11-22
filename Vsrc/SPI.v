@@ -54,19 +54,6 @@ module SPI (
     assign mosi_s = mosii;
     assign sck_s  = scki ;
 
-// spi_master u_m(
-//     .clk(clk)                       ,
-//     .rst_n(rst_n)                     ,
-//     .data_m(SPIDR1)                 ,
-//     .spcon(SPICR1)                  ,
-//     .spibr(SPIBR)                   ,
-//     .data_r_m(SPIDR2_m)             ,
-//     .data_finish_m(data_finish_m)   ,
-//     .miso(miso_m)                   ,
-//     .mosi(mosi_m)                   ,
-//     .sck(sck_m)                     ,
-//     .ssn(spssn)
-//     );
     spi_master inst_spi_master
         (
             .clk      (clk),
@@ -85,16 +72,18 @@ module SPI (
 
     spi_slave inst_spi_slave
         (
-            .data_s        (SPIDR1),
-            .spcon_s       (SPICR1),
-            .data_r_s      (SPIDR2_s),
-            .data_finish_s (data_finish_s),
-            .rst_n         (rst_n),
-            .mosi          (mosi_s),
-            .miso          (miso_s),
-            .sck           (sck_s),
-            .ssn           (ssn)
+            .clk       (clk),
+            .rst_n     (rst_n),
+            .data_s    (SPIDR1),
+            .spcon_s   (SPICR1),
+            .tr_done_s (data_finish_s),
+            .data_r_s  (SPIDR2_s),
+            .mosi      (mosi_s),
+            .miso      (miso_s),
+            .sck       (sck_s),
+            .ssn       (ssn)
         );
+
 
     always @(*) begin
         if (SPICR1[4]) begin

@@ -5,7 +5,7 @@
 // Author : Huang Xiaochong huangxc@stu.pku.edu.cn
 // File   : spi_master.v
 // Create : 2023-11-01 10:17:52
-// Revise : 2023-11-18 10:52:04
+// Revise : 2023-11-21 20:21:39
 // Editor : sublime text4, tab size (4)
 // -----------------------------------------------------------------------------
 /* Description:
@@ -19,6 +19,13 @@
 */
 // Version: 0.2
 // -----------------------------------------------------------------------------
+/* Description:
+	modify 
+
+*/
+// Version: 0.3
+// -----------------------------------------------------------------------------
+
 
 module spi_master (
 	input wire			clk  	  	  ,    // Clock
@@ -96,7 +103,7 @@ module spi_master (
 		else begin
 			if (tr_en) begin
 				if (clk_cnt == clk_div) begin
-					if (sck_edge_cnt == 5'd16) begin
+					if (sck_edge_cnt == 5'd17) begin
 						sck_edge_level <= 1'b0 ;
 						sck_edge_cnt <= 5'd0 ;
 					end

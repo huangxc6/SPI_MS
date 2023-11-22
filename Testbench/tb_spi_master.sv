@@ -13,7 +13,7 @@ module tb_spi_master (); /* this is automatically generated */
 	logic rst_n;
 	initial begin
 		rst_n <= '0;
-		#10
+		#5
 		rst_n <= '1;
 	end
 
@@ -55,19 +55,35 @@ module tb_spi_master (); /* this is automatically generated */
 		data_m <= '0;
 		spcon  <= '0;
 		spibr  <= '0;
-		spssn  <= '0;
+		spssn  <= 8'hff;
 		miso   <= '0;
+	endtask
+
+	task drive(int iter);	
+		for(int it = 0; it < iter; it++) begin
+			spssn  <= 8'hfe;
+			data_m <= $urandom_range(0,255);
+			spcon  <= 8'b0100_0000;	// Mode0 spen = 1;
+			spssn  <= '0;
+			miso   <= $urandom_range(0,1);
+			repeat(18)@(posedge clk);
+			spssn <= 8'hff ;
+			repeat(10)@(posedge clk);
+		end
 	endtask
 
 	task drive1(int iter);
 		for (int i = 0; i < 5; i++) begin
 			for(int it = 0; it < iter; it++) begin
+				spssn  <= 8'hfe;
 				data_m <= $urandom_range(0,255);
-				spcon  <= 8'd1;	// Mode0 spen = 1;
+				spcon  <= 8'b0100_0000;	// Mode0 spen = 1;
 				spibr  <= i ;
 				spssn  <= '0;
 				miso   <= $urandom_range(0,1);
-				repeat(100)@(posedge clk);
+				repeat(18)@(posedge clk);
+				spssn <= 8'hff ;
+				repeat(10)@(posedge clk);
 			end
 		end
 	endtask
@@ -79,7 +95,7 @@ module tb_spi_master (); /* this is automatically generated */
 		init();
 		repeat(10)@(posedge clk);
 
-		drive1(2);
+		drive(10);
 
 		repeat(10)@(posedge clk);
 		$finish;

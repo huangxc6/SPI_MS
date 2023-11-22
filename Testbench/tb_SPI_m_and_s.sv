@@ -4,9 +4,16 @@ module tb_SPI ();
 
 	// clock
 	logic clk;
+	logic clk_s;
 	initial begin
 		clk = '0;
 		forever #(0.5) clk = ~clk;
+	end
+	initial begin
+		clk_s = '0 ;
+		# 0.2 
+		clk_s = ~clk_s ;
+		forever #(0.5) clk_s = ~clk_s;
 	end
 
 	// asynchronous reset
@@ -79,11 +86,11 @@ module tb_SPI ();
 			.SPC0      (SPC0)
 		);
 
-		
+		assign scki_s = scko;
 
 		SPI inst_SPI_slave
 		(
-			.clk       (clk),
+			.clk       (clk_s),
 			.rst_n     (rst_n),
 			.sfraddr_w (sfraddr_w_s	),
 			.sfraddr_r (sfraddr_r_s	),
@@ -121,7 +128,7 @@ module tb_SPI ();
 		spidata_i_s	<= '0;
 		// mosii_s		<= '0;
 		// misoi_s		<= '0;
-		scki_s		<= '0;
+		// scki_s		<= '0;
 		ssn_s 		<= '0;
 	endtask
 
@@ -177,7 +184,7 @@ module tb_SPI ();
 			// misoi_s   <= $urandom_range(0,1);
 			repeat(18)@(posedge clk);
 			spssn_i  <= 8'hff;
-			repeat(2)@(posedge clk);
+			repeat(8)@(posedge clk);
 		end
 	endtask
 
@@ -188,18 +195,19 @@ module tb_SPI ();
 			// mosii+   <= $urandom_range(0,1);
 			repeat(18)@(posedge clk);
 			// ssn  <= 1'b1;
-			repeat(2)@(posedge clk);
+			repeat(8)@(posedge clk);
 		end
 	endtask
 
 	task transfer_data_master_slave(int iter_ms);
 		for(int it = 0; it < iter_ms; it++) begin
-			spssn_i  <= 8'hfe;
 			spidata_i <= $urandom_range(0,255);
 			spidata_i_s <= $urandom_range(0,255);
+			repeat(2)@(posedge clk);
+			spssn_i  <= 8'hfe;
 			repeat(18)@(posedge clk);
 			spssn_i  <= 8'hff;
-			repeat(2)@(posedge clk);
+			repeat(8)@(posedge clk);
 		end
 	endtask
 

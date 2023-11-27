@@ -147,7 +147,7 @@ module tb_SPI ();
 		repeat(2)@(posedge clk);
 		sfraddr_w <= 3'b010;
 		sfraddr_r <= 3'b010;
-		spidata_i <= 8'b0000_0000;	// clk / 2
+		spidata_i <= 8'b0000_0011;	// clk / 16
 		repeat(2)@(posedge clk);
 		sfraddr_w <= 3'b011;
 		sfraddr_r <= 3'b011;
@@ -169,7 +169,7 @@ module tb_SPI ();
 		repeat(2)@(posedge clk);
 		sfraddr_w_s <= 3'b010;
 		sfraddr_r_s <= 3'b010;
-		spidata_i_s <= 8'b0000_0000;	// clk / 2
+		spidata_i_s <= 8'b0000_0011;	// clk / 16
 		repeat(2)@(posedge clk);
 		sfraddr_w_s <= 3'b011;
 		sfraddr_r_s <= 3'b011;
@@ -205,7 +205,7 @@ module tb_SPI ();
 			spidata_i_s <= $urandom_range(0,255);
 			repeat(2)@(posedge clk);
 			spssn_i  <= 8'hfe;
-			repeat(18)@(posedge clk);
+			repeat(130)@(posedge clk);
 			spssn_i  <= 8'hff;
 			repeat(8)@(posedge clk);
 		end

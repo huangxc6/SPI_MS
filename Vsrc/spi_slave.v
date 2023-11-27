@@ -116,14 +116,14 @@ module spi_slave (
 						// default : data_r_s <= data_r_s ;
 					endcase
 				end 
+				end
 				else begin
 				if (cpha) begin
 					bit_count <= 3'b111 ;
 				end else begin
 					miso <= data_s[7] ;
 					bit_count <= 3'b110 ;
-				end
-			end 
+				end 
 			end
 		end
 	end
@@ -134,7 +134,7 @@ module spi_slave (
 			tr_done_s <= 1'b0;
 		end else begin
 			if (tr_en) begin
-				if (sck_edge_cnt == 5'd14) begin
+				if (sck_edge_cnt == 5'd16) begin
 					tr_done_s <= 1'b1 ;
 				end else begin
 					tr_done_s <= 1'b0 ;

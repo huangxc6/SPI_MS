@@ -29,12 +29,13 @@
 
 module spi_master (
 	input wire			clk  	  	  ,    // Clock
-	input wire			rst_n	      ,  	 // Asynchronous reset active low
+	input wire			rst_n	      ,    // Asynchronous reset active low
 
 	input wire	[7:0]	data_m 		  ,
 	input wire	[7:0]	spcon 		  ,
 	input wire	[7:0]	spibr 		  ,
-	input wire  [7:0]	spssn		  ,
+	// input wire  [7:0]	spssn		  ,
+	input wire 			spssn		  ,
 
 	output reg  [7:0]   data_r_m	  ,    // the 8 bits data register
     output reg          data_finish_m ,
@@ -45,12 +46,30 @@ module spi_master (
  
 	// spi clk and slave select
 	output reg			sck 		  ,
-	output wire	[7:0]	ssn 
+	// output wire	[7:0]	ssn 	  ,
+	output wire			ssn 		  
 );
-	wire   tr_en 		   				 ; 	
-	assign tr_en = ~(&spssn) && spcon[6] ; // tx or rx enable
+
+/*-----------------------------------------------\
+ --         generate enable signal          --
+\-----------------------------------------------*/
+	reg tr_en ;
+	always @(posedge clk or negedge rst_n) begin
+		if (rst_n == 1'b0) begin
+			tr_en <= 1'b0 ;
+		end
+		else begin
+			tr_en <= (~spssn && spcon[6]) ? 1'b1 : 1'b0 ; // tx or rx enable ; spcon[6] is SPI system enable
+		end
+	end
+
+	// wire   tr_en 		   				 ; 	
+	// assign tr_en = ~(&spssn) && spcon[6] ; // tx or rx enable ; spcon[6] is SPI system enable
 	assign ssn = spssn 					 ;
 
+/*-----------------------------------------------\
+ --        config thr polarity and phase         --
+\-----------------------------------------------*/ 
 	// cpol = 1, Active-low clocks selected. In idle state SCK is high.
 	// cpol = 0, Active-high clocks selected. In idle state SCK is low.
 	// cpha = 1, data being latched on even numbered edges and shifted on odd numbered edges
@@ -58,6 +77,10 @@ module spi_master (
 	wire cpol, cpha ; 
 	assign {cpol, cpha} = spcon[2:1] ;
 
+
+/*-----------------------------------------------\
+ --         generate the div signal           --
+\-----------------------------------------------*/ 
 	reg  [7:0] clk_cnt 	  ; 
 	wire [7:0] clk_div    ; // div the clk to generate the spi clk
 	wire [3:0] sppr_add1  ;
@@ -65,13 +88,37 @@ module spi_master (
 	assign sppr_add1 = spibr[6:4] + 3'b001 ;
 	assign clk_div   = sppr_add1 << spibr[2:0] ; 
 
+/*-----------------------------------------------\
+ --         reg define for control          --
+\-----------------------------------------------*/
+
 	reg  [4:0] sck_edge_cnt   ; // trace the sck edge
 	reg 	   sck_edge_level ; // trace the sck level
 
 	reg tr_done ; // when tx or rx done , set it
+	reg tr_done_dly1 ;
+	reg tr_done_dly2 ;
+	// reg [7:0] 
+	reg [7 : 0] data_tx_m ;
+	// reg [2:0] bit_count ; // bit count to transfer data
 
-	reg [2:0] bit_count ; // bit count to transfer data
+	wire ssn_edge ;
+	reg ssn_dly1 ;
 
+	always @(posedge clk or negedge rst_n) begin
+		if (rst_n == 1'b0) begin
+			ssn_dly1 <= 1'b1 ;
+			tr_done_dly1 <= 1'b0 ;
+			tr_done_dly2 <= 1'b0 ;
+		end
+		else begin
+			ssn_dly1 <= spssn ;
+			tr_done_dly1 <= tr_done ;
+			tr_done_dly2 <= tr_done_dly1 ;
+		end
+	end
+
+	assign ssn_edge = ~spssn & ssn_dly1 ;
 
 	// clk count for div
 	always @(posedge clk or negedge rst_n) begin 
@@ -127,8 +174,8 @@ module spi_master (
 		if(~rst_n) begin
 			sck       <= cpol ;
 			data_r_m    <= 8'd0 ;
-			bit_count <= 3'b111 ;
-			mosi      <= 1'b0 ;
+			// bit_count <= 3'b111 ;
+			// mosi      <= 1'b0 ;
 		end else begin
 			if (tr_en) begin
 				if (sck_edge_level) begin
@@ -136,8 +183,9 @@ module spi_master (
 						1, 3, 5, 7, 9, 11, 13, 15:begin
 							sck <= ~sck ;
 							if (cpha) begin  
-								mosi <= data_m [bit_count]     ;
-								bit_count <= bit_count - 1'b1;
+								// mosi <= data_m [bit_count]     ;
+								// bit_count <= bit_count - 1'b1  ;
+								data_tx_m <= {data_tx_m[6:0], 1'b0};
 							end
 							else begin
 								data_r_m <= {data_r_m[6:0], miso} ; 
@@ -149,8 +197,9 @@ module spi_master (
 								data_r_m <= {data_r_m[6:0], miso} ;
 							end
 							else begin
-								mosi <= data_m [bit_count] 	  ;
-								bit_count <= bit_count - 1'b1 ;
+								// mosi <= data_m [bit_count] 	  ;
+								// bit_count <= bit_count - 1'b1 ;
+								data_tx_m <= {data_tx_m[6:0], 1'b0};
 							end
 						end
 					endcase
@@ -160,33 +209,27 @@ module spi_master (
 			// idle state
 			else begin
 				sck <= cpol ;
-				if (cpha) begin
-					bit_count <= 4'd7 ;
-				end
-				else begin
-					mosi <= data_m[7] ;
-					bit_count <= 4'd6 ;
-				end
+				data_tx_m <= data_m ;
 			end
 		end
 	end
-
-	always @(*) begin
-		data_finish_m = !bit_count;
-	end
-
 
 	// if tr_done = 1, 8 bits data_m is being transfer
 	always @(posedge clk or negedge rst_n) begin
 		if(~rst_n) begin
 			tr_done <= 1'b0;
 		end else begin
-			if (tr_en && sck_edge_cnt == 5'd15) begin
+			if (tr_en && sck_edge_cnt == 5'd16) begin
 				tr_done <= 1'b1 ;
 			end else begin
 				tr_done <= 1'b0 ;
 			end
 		end
 	end
+
+	always @(*) begin
+		data_finish_m = tr_done_dly1 && ~tr_done_dly2 ;
+	end
+
 
 endmodule

@@ -69,6 +69,7 @@ module spi_master (
 	reg 	   sck_edge_level ; // trace the sck level
 
 	reg tr_done ; // when tx or rx done , set it
+	reg tr_done_dly1 ;
 
 	reg [2:0] bit_count ; // bit count to transfer data
 
@@ -103,7 +104,7 @@ module spi_master (
 		else begin
 			if (tr_en) begin
 				if (clk_cnt == clk_div) begin
-					if (sck_edge_cnt == 5'd17) begin
+					if (sck_edge_cnt == 5'd16) begin
 						sck_edge_level <= 1'b0 ;
 						sck_edge_cnt <= 5'd0 ;
 					end
@@ -171,8 +172,13 @@ module spi_master (
 		end
 	end
 
-	always @(*) begin
-		data_finish_m = !bit_count;
+	always @(posedge clk or negedge rst_n) begin
+		if (rst_n == 1'b0) begin
+			tr_done_dly1 <= 1'b0 ;
+		end
+		else begin
+			tr_done_dly1 <= tr_done ;
+		end
 	end
 
 
@@ -181,12 +187,16 @@ module spi_master (
 		if(~rst_n) begin
 			tr_done <= 1'b0;
 		end else begin
-			if (tr_en && sck_edge_cnt == 5'd15) begin
+			if (tr_en && sck_edge_cnt == 5'd16) begin
 				tr_done <= 1'b1 ;
 			end else begin
 				tr_done <= 1'b0 ;
 			end
 		end
+	end
+
+	always @(*) begin
+		data_finish_m = tr_done && ~tr_done_dly1;
 	end
 
 endmodule

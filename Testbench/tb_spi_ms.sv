@@ -1,6 +1,6 @@
 
 `timescale 1ns/1ps
-module tb_SPI ();
+module tb_spi_ms ();
 
 	// clock
 	logic clk;
@@ -64,7 +64,7 @@ module tb_SPI ();
 
 	assign misoi = misoo_s ;
 
-	SPI inst_SPI_master
+	spi_ms inst_SPI_master
 		(
 			.clk       (clk),
 			.rst_n     (rst_n),
@@ -88,7 +88,7 @@ module tb_SPI ();
 
 		assign scki_s = scko;
 
-		SPI inst_SPI_slave
+	spi_ms inst_SPI_slave
 		(
 			.clk       (clk_s),
 			.rst_n     (rst_n),
@@ -147,7 +147,7 @@ module tb_SPI ();
 		repeat(2)@(posedge clk);
 		sfraddr_w <= 3'b010;
 		sfraddr_r <= 3'b010;
-		spidata_i <= 8'b0000_0000;	// clk / 2
+		spidata_i <= 8'b0000_0011;	// clk / 16
 		repeat(2)@(posedge clk);
 		sfraddr_w <= 3'b011;
 		sfraddr_r <= 3'b011;
@@ -169,7 +169,7 @@ module tb_SPI ();
 		repeat(2)@(posedge clk);
 		sfraddr_w_s <= 3'b010;
 		sfraddr_r_s <= 3'b010;
-		spidata_i_s <= 8'b0000_0000;	// clk / 2
+		spidata_i_s <= 8'b0000_0011;	// clk / 16
 		repeat(2)@(posedge clk);
 		sfraddr_w_s <= 3'b011;
 		sfraddr_r_s <= 3'b011;
@@ -205,9 +205,9 @@ module tb_SPI ();
 			spidata_i_s <= $urandom_range(0,255);
 			repeat(2)@(posedge clk);
 			spssn_i  <= 8'hfe;
-			repeat(18)@(posedge clk);
+			repeat(140)@(posedge clk);
 			spssn_i  <= 8'hff;
-			repeat(8)@(posedge clk);
+			repeat(10)@(posedge clk);
 		end
 	endtask
 
@@ -260,8 +260,8 @@ module tb_SPI ();
 	initial begin
 		$display("random seed : %0d", $unsigned($get_initial_random_seed()));
 		if ( $test$plusargs("fsdb") ) begin
-			$fsdbDumpfile("tb_SPI.fsdb");
-			$fsdbDumpvars(0, "tb_SPI");
+			$fsdbDumpfile("tb_spi_ms.fsdb");
+			$fsdbDumpvars(0, "tb_spi_ms");
 		end
 	end
 endmodule

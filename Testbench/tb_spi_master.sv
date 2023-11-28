@@ -1,7 +1,6 @@
 
 `timescale 1ns/1ps
-module tb_spi_master (); /* this is automatically generated */
-
+module tb_spi_master ();
 	// clock
 	logic clk;
 	initial begin
@@ -13,7 +12,7 @@ module tb_spi_master (); /* this is automatically generated */
 	logic rst_n;
 	initial begin
 		rst_n <= '0;
-		#5
+		#6
 		rst_n <= '1;
 	end
 
@@ -31,6 +30,7 @@ module tb_spi_master (); /* this is automatically generated */
 	logic [7:0] spibr;
 	logic [7:0] spssn;
 	logic [7:0] data_r_m;
+	logic       data_finish_m;
 	logic       miso;
 	logic       mosi;
 	logic       sck;
@@ -38,17 +38,18 @@ module tb_spi_master (); /* this is automatically generated */
 
 	spi_master inst_spi_master
 		(
-			.clk      (clk),
-			.rst_n    (rst_n),
-			.data_m   (data_m),
-			.spcon    (spcon),
-			.spibr    (spibr),
-			.spssn    (spssn),
-			.data_r_m (data_r_m),
-			.miso     (miso),
-			.mosi     (mosi),
-			.sck      (sck),
-			.ssn      (ssn)
+			.clk           (clk),
+			.rst_n         (rst_n),
+			.data_m        (data_m),
+			.spcon         (spcon),
+			.spibr         (spibr),
+			.spssn         (spssn),
+			.data_r_m      (data_r_m),
+			.data_finish_m (data_finish_m),
+			.miso          (miso),
+			.mosi          (mosi),
+			.sck           (sck),
+			.ssn           (ssn)
 		);
 
 	task init();
@@ -59,43 +60,31 @@ module tb_spi_master (); /* this is automatically generated */
 		miso   <= '0;
 	endtask
 
-	task drive(int iter);	
+	task set();
+		spcon <= 8'b0100_0000 ;
+		spibr <= 8'b0000_0011 ;
+	endtask
+
+	task drive(int iter);
 		for(int it = 0; it < iter; it++) begin
+			data_m <= $random();
 			spssn  <= 8'hfe;
-			data_m <= $urandom_range(0,255);
-			spcon  <= 8'b0100_0000;	// Mode0 spen = 1;
-			spssn  <= '0;
-			miso   <= $urandom_range(0,1);
-			repeat(18)@(posedge clk);
-			spssn <= 8'hff ;
-			repeat(10)@(posedge clk);
+			miso   <= $random();
+			repeat(150)@(posedge clk);
+			spssn  <= 8'hff;
+			repeat(10)@(posedge clk) ;
 		end
 	endtask
-
-	task drive1(int iter);
-		for (int i = 0; i < 5; i++) begin
-			for(int it = 0; it < iter; it++) begin
-				spssn  <= 8'hfe;
-				data_m <= $urandom_range(0,255);
-				spcon  <= 8'b0100_0000;	// Mode0 spen = 1;
-				spibr  <= i ;
-				spssn  <= '0;
-				miso   <= $urandom_range(0,1);
-				repeat(18)@(posedge clk);
-				spssn <= 8'hff ;
-				repeat(10)@(posedge clk);
-			end
-		end
-	endtask
-
 
 	initial begin
 		// do something
 
 		init();
 		repeat(10)@(posedge clk);
+		set();
+		repeat(10)@(posedge clk);
 
-		drive(10);
+		drive(20);
 
 		repeat(10)@(posedge clk);
 		$finish;

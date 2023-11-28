@@ -105,7 +105,7 @@ module spi_slave (
 							end
 						end
 
-						2, 4, 6, 8, 10, 12, 14, 16 :begin
+						0, 2, 4, 6, 8, 10, 12, 14:begin
 							if (cpha) begin
 								miso <= data_s[bit_count] ;
 								bit_count <= bit_count - 1'b1 ;
@@ -116,6 +116,7 @@ module spi_slave (
 						// default : data_r_s <= data_r_s ;
 					endcase
 				end 
+			end
 				else begin
 				if (cpha) begin
 					bit_count <= 3'b111 ;
@@ -123,7 +124,7 @@ module spi_slave (
 					miso <= data_s[7] ;
 					bit_count <= 3'b110 ;
 				end
-			end 
+
 			end
 		end
 	end

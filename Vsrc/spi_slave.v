@@ -135,7 +135,7 @@ module spi_slave (
 			tr_done_s <= 1'b0;
 		end else begin
 			if (tr_en) begin
-				if (sck_edge_cnt == 5'd14) begin
+				if (sck_edge_cnt == 5'd16) begin
 					tr_done_s <= 1'b1 ;
 				end else begin
 					tr_done_s <= 1'b0 ;

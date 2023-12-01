@@ -247,9 +247,19 @@ module tb_spi_ms ();
 		repeat(10)@(posedge clk);
 
 		set_mode_m(8'b0101_0000);
-
 		set_mode_s(8'b0100_0000);
+		transfer_data_master_slave(20);
 
+		set_mode_m(8'b0101_0010);
+		set_mode_s(8'b0100_0010);
+		transfer_data_master_slave(20);
+
+		set_mode_m(8'b0101_0100);
+		set_mode_s(8'b0100_0100);
+		transfer_data_master_slave(20);
+
+		set_mode_m(8'b0101_0110);
+		set_mode_s(8'b0100_0110);
 		transfer_data_master_slave(20);
 
 

@@ -15,7 +15,7 @@ module spi_ms (
 
 
     output wire [7:0]   spssn_o,
-    output wire [7:0]   sfrdatao,
+    output reg  [7:0]   sfr_data_o,
 
     output wire         intspi,
     output wire         mosio,
@@ -39,7 +39,7 @@ module spi_ms (
     wire [7:0] SPIDR2_m;
     //wire [7:0] SPIDR1_s; 
     wire [7:0] SPIDR2_s;
-    reg  [7:0] sfr_datao;
+    // reg  [7:0] sfr_datao;
     wire data_finish_m;
     wire data_finish_s;
 
@@ -54,10 +54,30 @@ module spi_ms (
     assign mosi_s = mosii;
     assign sck_s  = scki ;
 
+/*-----------------------------------------------\
+ --         sync the rst_n signal          --
+\-----------------------------------------------*/
+    reg rst_n_sync_pre  ;
+    reg rst_n_sync      ;
+
+    always @ (posedge clk or negedge rst_n) begin
+        if (rst_n == 1'b0) begin
+            rst_n_sync_pre <= 1'b0 ;
+            rst_n_sync     <= 1'b0 ;
+        end else begin
+            rst_n_sync_pre  <= 1'b1 ;
+            rst_n_sync      <= rst_n_sync_pre ;
+        end
+    end
+
+/*-----------------------------------------------\
+ --     instance spi_master and spi_slave       --
+\-----------------------------------------------*/
+
     spi_master inst_spi_master
         (
             .clk      (clk),
-            .rst_n    (rst_n),
+            .rst_n    (rst_n_sync),
             .data_m   (SPIDR1),
             .spcon    (SPICR1),
             .spibr    (SPIBR),
@@ -73,7 +93,7 @@ module spi_ms (
     spi_slave inst_spi_slave
         (
             .clk       (clk),
-            .rst_n     (rst_n),
+            .rst_n     (rst_n_sync),
             .data_s    (SPIDR1),
             .spcon_s   (SPICR1),
             .tr_done_s (data_finish_s),
@@ -83,6 +103,7 @@ module spi_ms (
             .sck       (sck_s),
             .ssn       (ssn)
         );
+
 
 
     always @(*) begin
@@ -107,8 +128,8 @@ module spi_ms (
     end
 
 
-    always @(posedge clk or negedge rst_n) begin  
-        if (rst_n == 0) begin        // 当复位信号为低时，所有寄存器清零，地址和使能信号复位  
+    always @(posedge clk or negedge rst_n_sync) begin  
+        if (rst_n_sync == 0) begin         
             SPICR1 <= 8'b0;  
             SPICR2 <= 8'b0;  
             SPIBR <= 8'b0;  
@@ -130,21 +151,25 @@ module spi_ms (
         end 
     end  
 
-    //assign sfrdatao = (sfraddr_r == 3'b000) ? SPICR1 : (sfraddr_r == 3'b001) ? SPICR2 : (sfraddr_r == 3'b010) ? SPIBR : (sfraddr_r == 3'b011) ? SPISR : (sfraddr_r == 3'b100) ? SPIDR1 : SPIDR2 ;  
 
-    always @(*)
-    begin
-        case(sfraddr_r)
-        3'b000 : sfr_datao <= SPICR1 ;
-        3'b001 : sfr_datao <= SPICR2 ;
-        3'b010 : sfr_datao <= SPIBR  ;
-        3'b011 : sfr_datao <= SPISR  ;
-        3'b100 : sfr_datao <= SPIDR1 ;
-        3'b101 : sfr_datao <= SPIDR2 ;
-        default:;
-
-        endcase
-    end 
-
+/*-----------------------------------------------\
+ --         sfr_data_o : sfr output data        --
+\-----------------------------------------------*/
+    
+    always @(posedge clk or negedge rst_n_sync)begin   
+        if (rst_n_sync == 1'b0) begin
+            sfr_data_o <= 8'b0000_0000 ;
+        end else begin
+            case(sfraddr_r)
+                3'b000 : sfr_data_o <= SPICR1       ;
+                3'b001 : sfr_data_o <= SPICR2       ;
+                3'b010 : sfr_data_o <= SPIBR        ;
+                3'b011 : sfr_data_o <= SPISR        ;
+                3'b100 : sfr_data_o <= SPIDR1       ;
+                3'b101 : sfr_data_o <= SPIDR2       ;
+                default: sfr_data_o <= 8'b0000_0000 ;
+            endcase
+        end 
+    end
 
 endmodule

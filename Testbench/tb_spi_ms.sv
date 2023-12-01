@@ -19,8 +19,10 @@ module tb_spi_ms ();
 	// asynchronous reset
 	logic rst_n;
 	initial begin
-		rst_n <= '0;
+		rst_n <= '1;
 		#5
+		rst_n <= '0;
+		#1.8
 		rst_n <= '1;
 	end
 
@@ -78,7 +80,7 @@ module tb_spi_ms ();
 			.scki      (scki),
 			.ssn       (ssn),
 			.spssn_o   (spssn_o),
-			.sfrdatao  (sfrdatao),
+			.sfr_data_o(sfrdatao),
 			.intspi    (intspi),
 			.mosio     (mosio),
 			.misoo     (misoo),
@@ -102,7 +104,7 @@ module tb_spi_ms ();
 			.scki      (scki_s		),
 			.ssn       (spssn_o[0] 	),
 			.spssn_o   (spssn_o_s	),
-			.sfrdatao  (sfrdatao_s	),
+			.sfr_data_o(sfrdatao_s	),
 			.intspi    (intspi_s 	),
 			.mosio     (mosio_s		),
 			.misoo     (misoo_s		),

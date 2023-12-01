@@ -21,9 +21,7 @@ module spi_ms (
     output wire         mosio,
     output wire         misoo,
     output wire         scko,
-    output wire         SPC0
-
-    
+    output wire         SPC0    
 
 );
     reg  [7:0] SPICR1;  

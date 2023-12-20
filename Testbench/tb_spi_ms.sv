@@ -62,9 +62,19 @@ module tb_spi_ms ();
 	logic       scko_s		;
 	logic       SPC0_s		;
 
-	assign mosii_s = mosio ;
+	// logic mosi_s ;
+	// logic miso_s ;
+	// logic mosi_m ;
+	// logic miso_m ;
+	// logic sck_m  ;
+	// logic sck_s  ;
 
-	assign misoi = misoo_s ;
+	// assign mosi_s = mosi_m ;
+
+	// assign miso_m = miso_s ;
+	wire sck  ;
+	wire mosi ;
+	wire miso ;
 
 	spi_ms inst_SPI_master
 		(
@@ -75,20 +85,23 @@ module tb_spi_ms ();
 			.sfrwe     (sfrwe),
 			.spssn_i   (spssn_i),
 			.spidata_i (spidata_i),
-			.mosii     (mosii),
-			.misoi     (misoi),
-			.scki      (scki),
+			.sck       (sck),
+			.miso      (miso),
+			.mosi      (mosi),
+			// .mosii     (mosii),
+			// .misoi     (misoi),
+			// .scki      (scki),
 			.ssn       (ssn),
 			.spssn_o   (spssn_o),
 			.sfr_data_o(sfrdatao),
 			.intspi    (intspi),
-			.mosio     (mosio),
-			.misoo     (misoo),
-			.scko      (scko),
+			// .mosio     (mosio),
+			// .misoo     (misoo),
+			// .scko      (scko),
 			.SPC0      (SPC0)
 		);
 
-		assign scki_s = scko;
+		// assign sck_s = sck_m;
 
 	spi_ms inst_SPI_slave
 		(
@@ -99,16 +112,19 @@ module tb_spi_ms ();
 			.sfrwe     (sfrwe_s		),
 			.spssn_i   (spssn_i_s	),
 			.spidata_i (spidata_i_s	),
-			.mosii     (mosii_s		),
-			.misoi     (misoi_s		),
-			.scki      (scki_s		),
+			.sck       (sck),
+			.miso      (miso),
+			.mosi      (mosi),
+			// .mosii     (mosii_s		),
+			// .misoi     (misoi_s		),
+			// .scki      (scki_s		),
 			.ssn       (spssn_o[0] 	),
 			.spssn_o   (spssn_o_s	),
 			.sfr_data_o(sfrdatao_s	),
 			.intspi    (intspi_s 	),
-			.mosio     (mosio_s		),
-			.misoo     (misoo_s		),
-			.scko      (scko_s		),
+			// .mosio     (mosio_s		),
+			// .misoo     (misoo_s		),
+			// .scko      (scko_s		),
 			.SPC0      (SPC0_s		)
 		);
 
@@ -275,5 +291,9 @@ module tb_spi_ms ();
 			$fsdbDumpfile("tb_spi_ms.fsdb");
 			$fsdbDumpvars(0, "tb_spi_ms");
 		end
+	end
+
+	initial begin
+		$sdf_annotate("/home/IC/SPI/Testbench/spi_ms.sdf", inst_SPI_master);  
 	end
 endmodule

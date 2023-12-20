@@ -20,7 +20,7 @@ module spi_slave (
 	input wire	[7:0]	data_s 		,
 	input wire	[7:0]	spcon_s 		,
 
-    output reg          tr_done_s   ,
+    output reg          data_finish_s   ,
     output reg  [7:0]   data_r_s	,
 
 
@@ -132,16 +132,16 @@ module spi_slave (
 	// grnerate tr_done signal 
 	always @(posedge clk or negedge rst_n) begin
 		if(~rst_n) begin
-			tr_done_s <= 1'b0;
+			data_finish_s <= 1'b0;
 		end else begin
 			if (tr_en) begin
 				if (sck_edge_cnt == 5'd16) begin
-					tr_done_s <= 1'b1 ;
+					data_finish_s <= 1'b1 ;
 				end else begin
-					tr_done_s <= 1'b0 ;
+					data_finish_s <= 1'b0 ;
 				end
 			end else begin
-				tr_done_s <= 1'b0 ;
+				data_finish_s <= 1'b0 ;
 			end
 			
 		end

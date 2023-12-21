@@ -1,6 +1,6 @@
 module spi_ms (
-    input wire          clk,
-    input wire          rst_n,
+    input wire          clk    ,
+    input wire          rst_n  ,
 
     // sfr interface
     input wire [1:0]    sfraddr_w ,
@@ -13,13 +13,11 @@ module spi_ms (
     input wire [7:0]    spssn_i    ,
     output wire [7:0]   spssn_o    ,
 
-
     // spi interface
     inout wire          mosi ,
     inout wire          miso ,
     inout wire          sck  ,
     input wire          ssn
-
 );
     reg  [7:0] spicr1 ;   
     reg  [7:0] spicr2 ;  

@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////
 // Created by: Synopsys DC Expert(TM) in wire load mode
 // Version   : K-2015.06
-// Date      : Wed Dec 20 21:43:56 2023
+// Date      : Thu Dec 21 17:06:14 2023
 /////////////////////////////////////////////////////////////
 
 
@@ -402,9 +402,9 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
   DRNQV1_7TV50 \spibr_reg[1]  ( .D(n69), .CK(clk), .RDN(n84), .Q(spibr[1]) );
   TBUFV1_7TV50 mosi_s_tri ( .I(mosi), .OE(n106), .Z(mosi_s) );
   TBUFV1_7TV50 miso_m_tri ( .I(miso), .OE(spicr1[4]), .Z(miso_m) );
-  TBUFV1_7TV50 miso_tri ( .I(miso_s), .OE(n106), .Z(miso) );
   TBUFV1_7TV50 mosi_tri ( .I(mosi_m), .OE(spicr1[4]), .Z(mosi) );
   TBUFV1_7TV50 sck_tri ( .I(sck_m), .OE(spicr1[4]), .Z(sck) );
+  TBUFV1_7TV50 miso_tri ( .I(miso_s), .OE(n106), .Z(miso) );
   TBUFV1_7TV50 sck_s_tri ( .I(sck), .OE(n106), .Z(sck_s) );
   NOR2V1_7TV50 \inst_spi_slave/U28  ( .A1(ssn), .A2(
         \inst_spi_slave/sck_edge_cnt [4]), .ZN(\inst_spi_slave/n19 ) );
@@ -509,20 +509,6 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
         \inst_spi_master/n14 ), .B1(n108), .B2(\inst_spi_master/n8 ), .ZN(
         \inst_spi_master/n45 ) );
   NOR3V1_7TV50 U92 ( .A1(sfraddr_r[2]), .A2(n93), .A3(n94), .ZN(n33) );
-  AOI22V1_7TV50 U88 ( .A1(n33), .A2(spisr[0]), .B1(n22), .B2(spidr2_s[0]), 
-        .ZN(n43) );
-  AOI22V1_7TV50 U84 ( .A1(n23), .A2(spidr2_m[0]), .B1(spidr1[0]), .B2(n20), 
-        .ZN(n44) );
-  AOI222V1_7TV50 U80 ( .A1(spibr[0]), .A2(n18), .B1(spicr1[0]), .B2(n21), .C1(
-        spicr2[0]), .C2(n19), .ZN(n45) );
-  NAND3V1_7TV50 U79 ( .A1(n43), .A2(n44), .A3(n45), .ZN(N72) );
-  AOI22V1_7TV50 U66 ( .A1(n33), .A2(spisr[4]), .B1(n22), .B2(spidr2_s[4]), 
-        .ZN(n30) );
-  AOI22V1_7TV50 U65 ( .A1(n23), .A2(spidr2_m[4]), .B1(n20), .B2(spidr1[4]), 
-        .ZN(n31) );
-  AOI222V1_7TV50 U64 ( .A1(n18), .A2(spibr[4]), .B1(spicr1[4]), .B2(n21), .C1(
-        n19), .C2(spicr2[4]), .ZN(n32) );
-  NAND3V1_7TV50 U63 ( .A1(n30), .A2(n31), .A3(n32), .ZN(N76) );
   AOI22V1_7TV50 U78 ( .A1(n33), .A2(spisr[1]), .B1(n22), .B2(spidr2_s[1]), 
         .ZN(n40) );
   AOI22V1_7TV50 U77 ( .A1(n23), .A2(spidr2_m[1]), .B1(n20), .B2(spidr1[1]), 
@@ -530,6 +516,20 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
   AOI222V1_7TV50 U76 ( .A1(n18), .A2(spibr[1]), .B1(n21), .B2(spicr1[1]), .C1(
         n19), .C2(spicr2[1]), .ZN(n42) );
   NAND3V1_7TV50 U75 ( .A1(n40), .A2(n41), .A3(n42), .ZN(N73) );
+  AOI22V1_7TV50 U66 ( .A1(n33), .A2(spisr[4]), .B1(n22), .B2(spidr2_s[4]), 
+        .ZN(n30) );
+  AOI22V1_7TV50 U65 ( .A1(n23), .A2(spidr2_m[4]), .B1(n20), .B2(spidr1[4]), 
+        .ZN(n31) );
+  AOI222V1_7TV50 U64 ( .A1(n18), .A2(spibr[4]), .B1(spicr1[4]), .B2(n21), .C1(
+        n19), .C2(spicr2[4]), .ZN(n32) );
+  NAND3V1_7TV50 U63 ( .A1(n30), .A2(n31), .A3(n32), .ZN(N76) );
+  AOI22V1_7TV50 U88 ( .A1(n33), .A2(spisr[0]), .B1(n22), .B2(spidr2_s[0]), 
+        .ZN(n43) );
+  AOI22V1_7TV50 U84 ( .A1(n23), .A2(spidr2_m[0]), .B1(spidr1[0]), .B2(n20), 
+        .ZN(n44) );
+  AOI222V1_7TV50 U80 ( .A1(spibr[0]), .A2(n18), .B1(spicr1[0]), .B2(n21), .C1(
+        spicr2[0]), .C2(n19), .ZN(n45) );
+  NAND3V1_7TV50 U79 ( .A1(n43), .A2(n44), .A3(n45), .ZN(N72) );
   AOI22V1_7TV50 U54 ( .A1(n22), .A2(spidr2_s[7]), .B1(n23), .B2(spidr2_m[7]), 
         .ZN(n15) );
   AOI22V1_7TV50 U53 ( .A1(n20), .A2(spidr1[7]), .B1(n21), .B2(spicr1[7]), .ZN(
@@ -577,8 +577,6 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
         .A2(\inst_spi_slave/sck_edge_cnt [2]), .A3(
         \inst_spi_slave/sck_edge_cnt [1]), .A4(
         \inst_spi_slave/sck_edge_cnt [3]), .ZN(\inst_spi_slave/n25 ) );
-  NAND2V1_7TV50 \inst_spi_slave/U37  ( .A1(n97), .A2(\inst_spi_slave/n24 ), 
-        .ZN(\inst_spi_slave/n23 ) );
   AO22V1_7TV50 \inst_spi_slave/U30  ( .A1(\inst_spi_slave/sck_edge_cnt [3]), 
         .A2(\inst_spi_slave/n21 ), .B1(\inst_spi_slave/n22 ), .B2(
         \inst_spi_slave/N22 ), .Z(\inst_spi_slave/n38 ) );
@@ -608,6 +606,12 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
   XNOR2V1_7TV50 \inst_spi_slave/U29  ( .A1(spicr1[1]), .A2(
         \inst_spi_slave/sck_edge_cnt [0]), .ZN(\inst_spi_slave/n17 ) );
   NOR2V1_7TV50 U89 ( .A1(spicr1[4]), .A2(n49), .ZN(n22) );
+  NOR3V1_7TV50 U83 ( .A1(sfraddr_r[2]), .A2(sfraddr_r[0]), .A3(n93), .ZN(n18)
+         );
+  NOR3V1_7TV50 U82 ( .A1(sfraddr_r[1]), .A2(sfraddr_r[2]), .A3(sfraddr_r[0]), 
+        .ZN(n21) );
+  NOR3V1_7TV50 U81 ( .A1(sfraddr_r[1]), .A2(sfraddr_r[2]), .A3(n94), .ZN(n19)
+         );
   NOR2V1_7TV50 \inst_spi_slave/U36  ( .A1(\inst_spi_slave/n20 ), .A2(
         \inst_spi_slave/n23 ), .ZN(\inst_spi_slave/n21 ) );
   NOR2XBV1_7TV50 \inst_spi_slave/U35  ( .A1(\inst_spi_slave/n20 ), .B1(
@@ -674,7 +678,8 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
         .ZN(\inst_spi_master/n9 ) );
   NAND2V1_7TV50 \inst_spi_slave/U39  ( .A1(\inst_spi_slave/n25 ), .A2(
         \inst_spi_slave/sck_edge_cnt [4]), .ZN(\inst_spi_slave/n24 ) );
-  NAND2V1_7TV50 U32 ( .A1(sfrwe), .A2(sfraddr_w[1]), .ZN(n13) );
+  NAND2V1_7TV50 \inst_spi_slave/U37  ( .A1(n97), .A2(\inst_spi_slave/n24 ), 
+        .ZN(\inst_spi_slave/n23 ) );
   CLKOR2V1_7TV50 \inst_spi_master/U41  ( .A1(spicr1[2]), .A2(n84), .Z(
         \inst_spi_master/n30 ) );
   NOR2V1_7TV50 \inst_spi_slave/U17  ( .A1(n97), .A2(spicr1[1]), .ZN(
@@ -683,13 +688,6 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
         \inst_spi_master/n8 ), .ZN(\inst_spi_master/n23 ) );
   NOR2V1_7TV50 U86 ( .A1(n106), .A2(n49), .ZN(n23) );
   NOR2V1_7TV50 U85 ( .A1(sfraddr_r[0]), .A2(n48), .ZN(n20) );
-  NOR3V1_7TV50 U83 ( .A1(sfraddr_r[2]), .A2(sfraddr_r[0]), .A3(n93), .ZN(n18)
-         );
-  NOR3V1_7TV50 U82 ( .A1(sfraddr_r[1]), .A2(sfraddr_r[2]), .A3(sfraddr_r[0]), 
-        .ZN(n21) );
-  NOR3V1_7TV50 U81 ( .A1(sfraddr_r[1]), .A2(sfraddr_r[2]), .A3(n94), .ZN(n19)
-         );
-  NAND2V1_7TV50 U50 ( .A1(sfrwe), .A2(sfraddr_w[0]), .ZN(n11) );
   OAI21V1_7TV50 \inst_spi_master/U55  ( .A1(\inst_spi_master/n25 ), .A2(
         \inst_spi_master/n26 ), .B(spicr1[6]), .ZN(\inst_spi_master/n8 ) );
   OA221V1_7TV50 \inst_spi_master/U26  ( .A1(n108), .A2(\inst_spi_master/n16 ), 
@@ -697,6 +695,8 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
         \inst_spi_master/n17 ) );
   NOR2XBV1_7TV50 \inst_spi_slave/U26  ( .A1(\inst_spi_slave/n17 ), .B1(
         \inst_spi_slave/n16 ), .ZN(\inst_spi_slave/n18 ) );
+  CLKNAND2V1_7TV50 U32 ( .A1(sfrwe), .A2(sfraddr_w[1]), .ZN(n13) );
+  CLKNAND2V1_7TV50 U50 ( .A1(sfrwe), .A2(sfraddr_w[0]), .ZN(n11) );
   MUX2V1_7TV50 \inst_spi_master/U49  ( .I0(\inst_spi_master/clk_cnt [0]), .I1(
         \inst_spi_master/N18 ), .S(n95), .Z(\inst_spi_master/n40 ) );
   MUX2V1_7TV50 \inst_spi_master/U42  ( .I0(\inst_spi_master/clk_cnt [7]), .I1(
@@ -709,19 +709,19 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
         \inst_spi_master/N19 ), .S(n95), .Z(\inst_spi_master/n38 ) );
   MUX2V1_7TV50 \inst_spi_master/U45  ( .I0(\inst_spi_master/clk_cnt [4]), .I1(
         \inst_spi_master/N22 ), .S(n95), .Z(\inst_spi_master/n35 ) );
-  MUX2V1_7TV50 \inst_spi_master/U46  ( .I0(\inst_spi_master/clk_cnt [3]), .I1(
-        \inst_spi_master/N21 ), .S(n95), .Z(\inst_spi_master/n36 ) );
   MUX2V1_7TV50 \inst_spi_master/U47  ( .I0(\inst_spi_master/clk_cnt [2]), .I1(
         \inst_spi_master/N20 ), .S(n95), .Z(\inst_spi_master/n37 ) );
-  DSRNQV1_7TV50 \inst_spi_slave/bit_count_reg[0]  ( .D(\inst_spi_slave/n29 ), 
-        .CK(clk), .RDN(\*Logic1* ), .SDN(rst_n_sync), .Q(
-        \inst_spi_slave/bit_count [0]) );
+  MUX2V1_7TV50 \inst_spi_master/U46  ( .I0(\inst_spi_master/clk_cnt [3]), .I1(
+        \inst_spi_master/N21 ), .S(n95), .Z(\inst_spi_master/n36 ) );
   DSRNQV1_7TV50 \inst_spi_master/bit_count_reg[2]  ( .D(\inst_spi_master/n43 ), 
-        .CK(clk), .RDN(\*Logic1* ), .SDN(n84), .Q(
+        .CK(clk), .RDN(\*Logic1* ), .SDN(rst_n_sync), .Q(
         \inst_spi_master/bit_count [2]) );
   DSRNQV1_7TV50 \inst_spi_master/bit_count_reg[1]  ( .D(\inst_spi_master/n44 ), 
         .CK(clk), .RDN(\*Logic1* ), .SDN(n84), .Q(
         \inst_spi_master/bit_count [1]) );
+  DSRNQV1_7TV50 \inst_spi_slave/bit_count_reg[0]  ( .D(\inst_spi_slave/n29 ), 
+        .CK(clk), .RDN(\*Logic1* ), .SDN(n84), .Q(
+        \inst_spi_slave/bit_count [0]) );
   DSRNQV1_7TV50 \inst_spi_slave/bit_count_reg[2]  ( .D(\inst_spi_slave/n27 ), 
         .CK(clk), .RDN(\*Logic1* ), .SDN(n84), .Q(
         \inst_spi_slave/bit_count [2]) );
@@ -738,29 +738,29 @@ module spi_ms ( clk, rst_n, sfraddr_w, sfrwe, spidata_i, sfraddr_r, sfr_data_o,
   NOR2V1_7TV50 U97 ( .A1(sfraddr_w[0]), .A2(n13), .ZN(n12) );
   NOR2V1_7TV50 U98 ( .A1(sfraddr_w[1]), .A2(n11), .ZN(n10) );
   NOR2XBV1_7TV50 U99 ( .A1(sfraddr_w[1]), .B1(n11), .ZN(n14) );
-  CLKINV1_7TV50 U100 ( .I(sfraddr_r[0]), .ZN(n94) );
-  CLKINV1_7TV50 U101 ( .I(sfraddr_r[1]), .ZN(n93) );
-  NOR3BV1_7TV50 U102 ( .A1(sfrwe), .B1(sfraddr_w[0]), .B2(sfraddr_w[1]), .ZN(
+  NOR3BV1_7TV50 U100 ( .A1(sfrwe), .B1(sfraddr_w[0]), .B2(sfraddr_w[1]), .ZN(
         n1) );
-  INV0P7_7TV50 U103 ( .I(\inst_spi_master/N15 ), .ZN(n99) );
-  CLKINV1_7TV50 U104 ( .I(ssn), .ZN(n97) );
-  CLKBUFV2_7TV50 U105 ( .I(rst_n_sync), .Z(n84) );
-  INV0P7_7TV50 U106 ( .I(\inst_spi_master/bit_count [1]), .ZN(n109) );
-  INV0P7_7TV50 U107 ( .I(spicr1[4]), .ZN(n106) );
-  NAND2V1_7TV50 U108 ( .A1(\inst_spi_master/clk_cnt [7]), .A2(n99), .ZN(n114)
+  INV0P7_7TV50 U101 ( .I(\inst_spi_master/N15 ), .ZN(n99) );
+  CLKBUFV2_7TV50 U102 ( .I(rst_n_sync), .Z(n84) );
+  INV0P7_7TV50 U103 ( .I(\inst_spi_master/bit_count [1]), .ZN(n109) );
+  INV0P7_7TV50 U104 ( .I(spicr1[4]), .ZN(n106) );
+  CLKINV1_7TV50 U105 ( .I(sfraddr_r[0]), .ZN(n94) );
+  CLKINV1_7TV50 U106 ( .I(sfraddr_r[1]), .ZN(n93) );
+  NAND2V1_7TV50 U107 ( .A1(\inst_spi_master/clk_cnt [7]), .A2(n99), .ZN(n114)
          );
-  CLKINV1_7TV50 U109 ( .I(spidata_i[7]), .ZN(n85) );
-  CLKINV1_7TV50 U110 ( .I(spidata_i[6]), .ZN(n86) );
-  CLKINV1_7TV50 U111 ( .I(spidata_i[5]), .ZN(n87) );
-  CLKINV1_7TV50 U112 ( .I(spidata_i[4]), .ZN(n88) );
+  CLKINV1_7TV50 U108 ( .I(spidata_i[7]), .ZN(n85) );
+  CLKINV1_7TV50 U109 ( .I(spidata_i[6]), .ZN(n86) );
+  CLKINV1_7TV50 U110 ( .I(spidata_i[5]), .ZN(n87) );
+  CLKINV1_7TV50 U111 ( .I(spidata_i[4]), .ZN(n88) );
+  CLKINV1_7TV50 U112 ( .I(spidata_i[3]), .ZN(n89) );
   CLKINV1_7TV50 U113 ( .I(spidata_i[2]), .ZN(n90) );
-  CLKINV1_7TV50 U114 ( .I(spidata_i[3]), .ZN(n89) );
+  CLKINV1_7TV50 U114 ( .I(spidata_i[1]), .ZN(n91) );
   CLKINV1_7TV50 U115 ( .I(spidata_i[0]), .ZN(n92) );
-  CLKINV1_7TV50 U116 ( .I(spidata_i[1]), .ZN(n91) );
-  NAND2V1_7TV50 U117 ( .A1(n127), .A2(n126), .ZN(n133) );
-  INV0P7_7TV50 U118 ( .I(\inst_spi_master/sck_edge_cnt [4]), .ZN(n110) );
-  INV0P7_7TV50 U119 ( .I(spicr1[1]), .ZN(n108) );
-  INV0P7_7TV50 U120 ( .I(\inst_spi_slave/bit_count [0]), .ZN(n112) );
+  NAND2V1_7TV50 U116 ( .A1(n127), .A2(n126), .ZN(n133) );
+  INV0P7_7TV50 U117 ( .I(\inst_spi_master/sck_edge_cnt [4]), .ZN(n110) );
+  INV0P7_7TV50 U118 ( .I(spicr1[1]), .ZN(n108) );
+  INV0P7_7TV50 U119 ( .I(\inst_spi_slave/bit_count [0]), .ZN(n112) );
+  CLKINV1_7TV50 U120 ( .I(ssn), .ZN(n97) );
   INV0P7_7TV50 U121 ( .I(\inst_spi_slave/sck_edge_cnt [0]), .ZN(n113) );
   AND2V1_7TV50 U122 ( .A1(n99), .A2(\inst_spi_master/clk_cnt [6]), .Z(
         \inst_spi_master/add_88_aco_DP_OP_288_3930_2/n9 ) );

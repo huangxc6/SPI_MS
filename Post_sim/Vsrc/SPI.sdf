@@ -1,0 +1,664 @@
+(DELAYFILE
+  (SDFVERSION "3.0")
+  (DESIGN "spi_ms")
+  (DATE "Thu Dec 21 18:43:25 2023")
+  (VENDOR "Cadence Design Systems, Inc.")
+  (PROGRAM "Innovus")
+  (VERSION "v15.20-p005_1 ((64bit) 11/11/2015 11:16 (Linux 2.6.18-194.el5))")
+  (DIVIDER /)
+  (VOLTAGE 5.500000::5.500000)
+  (PROCESS "1.000000::1.000000")
+  (TEMPERATURE -40.000000::-40.000000)
+  (TIMESCALE 1.0 ns)
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  rst_n_sync_pre_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  rst_n_sync_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spisr_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spidr1_reg\[7\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spidr1_reg\[6\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spidr1_reg\[5\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spidr1_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spidr1_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spidr1_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spidr1_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spidr1_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spibr_reg\[7\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spibr_reg\[6\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spibr_reg\[5\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spibr_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spibr_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spibr_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr2_reg\[7\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr2_reg\[6\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr2_reg\[5\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr2_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr2_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr2_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr2_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr2_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr1_reg\[7\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr1_reg\[6\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr1_reg\[5\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr1_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr1_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr1_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr1_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spicr1_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spisr_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spisr_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  sfr_data_o_reg\[7\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  sfr_data_o_reg\[6\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  sfr_data_o_reg\[5\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  sfr_data_o_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  sfr_data_o_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  sfr_data_o_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  sfr_data_o_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  sfr_data_o_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/tr_done_dly1_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/tr_done_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/mosi_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/data_r_m_reg\[7\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/data_r_m_reg\[6\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/data_r_m_reg\[5\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/data_r_m_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/data_r_m_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/data_r_m_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/data_r_m_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/data_r_m_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DSRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/sck_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/sck_edge_level_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/sck_edge_cnt_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/sck_edge_cnt_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/sck_edge_cnt_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/sck_edge_cnt_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/sck_edge_cnt_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/clk_cnt_reg\[7\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/clk_cnt_reg\[6\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/clk_cnt_reg\[5\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/clk_cnt_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/clk_cnt_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/clk_cnt_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/clk_cnt_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/data_finish_s_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/miso_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/data_r_s_reg\[7\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/data_r_s_reg\[6\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/data_r_s_reg\[5\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/data_r_s_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/data_r_s_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/data_r_s_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/data_r_s_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/data_r_s_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/sck_edge_cnt_reg\[3\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/sck_edge_cnt_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/sck_edge_cnt_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/sck_edge_cnt_reg\[4\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/sck_edge_cnt_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/sck_dly1_reg)
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spibr_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DRNQV1_7TV50")
+    (INSTANCE  spibr_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DSRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/bit_count_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DSRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/bit_count_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DSRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/bit_count_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DSRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/bit_count_reg\[2\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DSRNQV1_7TV50")
+    (INSTANCE  inst_spi_slave\/bit_count_reg\[1\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DSRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/bit_count_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+
+  (CELL
+    (CELLTYPE  "DSRNQV1_7TV50")
+    (INSTANCE  inst_spi_master\/clk_cnt_reg\[0\])
+      (TIMINGCHECK
+      )
+  )
+)

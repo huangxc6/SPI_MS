@@ -1,0 +1,15 @@
+ 
+****************************************
+Report : timing
+        -loops
+        -max_paths 1
+Design : spi_ms
+Version: K-2015.06
+Date   : Sun Dec 24 22:33:04 2023
+****************************************
+
+Operating Conditions: tt_v5p0_25c   Library: scc018v3ebcd_uhd50_rvt_tt_v5p0_25c_basic
+Wire Load Model Mode: top
+No loops.
+
+1

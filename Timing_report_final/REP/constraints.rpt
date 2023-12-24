@@ -1,0 +1,71 @@
+ 
+****************************************
+Report : constraint
+        -all_violators
+        -verbose
+Design : spi_ms
+Version: K-2015.06
+Date   : Sun Dec 24 22:33:04 2023
+****************************************
+
+
+  Startpoint: rst_n_sync_pre_reg/CK
+              (internal path startpoint clocked by clk)
+  Endpoint: rst_n_sync_reg
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.00       0.00 r
+  rst_n_sync_pre_reg/CK (DRNQV1_7TV50)                    0.00       0.00 r
+  rst_n_sync_pre_reg/Q (DRNQV1_7TV50)                     0.55       0.55 f
+  rst_n_sync_reg/D (DRNQV1_7TV50)                         0.00       0.55 f
+  data arrival time                                                  0.55
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.50       0.50
+  rst_n_sync_reg/CK (DRNQV1_7TV50)                        0.00       0.50 r
+  library hold time                                       0.07       0.57
+  data required time                                                 0.57
+  --------------------------------------------------------------------------
+  data required time                                                 0.57
+  data arrival time                                                 -0.55
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.02
+
+
+  Startpoint: inst_spi_slave/data_finish_s_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: spisr_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  inst_spi_slave/data_finish_s_reg/CK (DRNQV1_7TV50)      0.00       0.00 r
+  inst_spi_slave/data_finish_s_reg/Q (DRNQV1_7TV50)       0.55       0.55 f
+  spisr_reg[1]/D (DRNQV1_7TV50)                           0.00       0.55 f
+  data arrival time                                                  0.55
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.50       0.50
+  spisr_reg[1]/CK (DRNQV1_7TV50)                          0.00       0.50 r
+  library hold time                                       0.07       0.57
+  data required time                                                 0.57
+  --------------------------------------------------------------------------
+  data required time                                                 0.57
+  data arrival time                                                 -0.55
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.02
+
+
+1

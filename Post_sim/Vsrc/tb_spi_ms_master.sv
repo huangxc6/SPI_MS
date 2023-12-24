@@ -1,12 +1,20 @@
 
 `timescale 1ns/1ps
-module tb_spi_m_and_s (); 
+module tb_spi_ms_master (); 
 
 	// clock
-	logic clk;
+	logic m_clk;
 	initial begin
-		clk = '0;
-		forever #(20) clk = ~clk;
+		m_clk = '0;
+		forever #(20) m_clk = ~m_clk;
+	end
+
+	logic s_clk;
+	initial begin
+		s_clk = '0;
+		#5
+		s_clk = '1;
+		forever #(20) s_clk = ~s_clk;
 	end
 
 	// asynchronous reset
@@ -17,7 +25,6 @@ module tb_spi_m_and_s ();
 		rst_n <= '1;
 	end
 
-	// (*NOTE*) replace reset, clock, others
 	logic [1:0] m_sfraddr_w;
 	logic       m_sfrwe;
 	logic [7:0] m_spidata_i;
@@ -26,6 +33,11 @@ module tb_spi_m_and_s ();
 	logic [7:0] m_spssn_i;
 	logic [7:0] m_spssn_o;
 	logic       m_ssn;
+
+	wire       mosi;
+	wire       miso;
+	wire       sck;
+
 	logic [1:0] s_sfraddr_w;
 	logic       s_sfrwe;
 	logic [7:0] s_spidata_i;
@@ -33,30 +45,43 @@ module tb_spi_m_and_s ();
 	logic [7:0] s_sfr_data_o;
 	logic [7:0] s_spssn_i;
 	logic [7:0] s_spssn_o;
+
 	logic       s_ssn;
+
+	spi_ms inst_spi_ms
+		(
+			.clk        (m_clk),
+			.rst_n      (rst_n),
+			.sfraddr_w  (m_sfraddr_w),
+			.sfrwe      (m_sfrwe),
+			.spidata_i  (m_spidata_i),
+			.sfraddr_r  (m_sfraddr_r),
+			.sfr_data_o (m_sfr_data_o),
+			.spssn_i    (m_spssn_i),
+			.spssn_o    (m_spssn_o),
+			.mosi       (mosi),
+			.miso       (miso),
+			.sck        (sck),
+			.ssn        (m_ssn)
+		);
 
 	assign s_ssn = m_spssn_o[0] ;
 
-	spi_m_and_s inst_spi_m_and_s
+	spi_ms_rtl inst_spi_ms_rtl
 		(
-			.clk          (clk),
-			.rst_n        (rst_n),
-			.m_sfraddr_w  (m_sfraddr_w),
-			.m_sfrwe      (m_sfrwe),
-			.m_spidata_i  (m_spidata_i),
-			.m_sfraddr_r  (m_sfraddr_r),
-			.m_sfr_data_o (m_sfr_data_o),
-			.m_spssn_i    (m_spssn_i),
-			.m_spssn_o    (m_spssn_o),
-			.m_ssn        (m_ssn),
-			.s_sfraddr_w  (s_sfraddr_w),
-			.s_sfrwe      (s_sfrwe),
-			.s_spidata_i  (s_spidata_i),
-			.s_sfraddr_r  (s_sfraddr_r),
-			.s_sfr_data_o (s_sfr_data_o),
-			.s_spssn_i    (s_spssn_i),
-			.s_spssn_o    (s_spssn_o),
-			.s_ssn        (s_ssn)
+			.clk        (s_clk),
+			.rst_n      (rst_n),
+			.sfraddr_w  (s_sfraddr_w),
+			.sfrwe      (s_sfrwe),
+			.spidata_i  (s_spidata_i),
+			.sfraddr_r  (s_sfraddr_r),
+			.sfr_data_o (s_sfr_data_o),
+			.spssn_i    (s_spssn_i),
+			.spssn_o    (s_spssn_o),
+			.mosi       (mosi),
+			.miso       (miso),
+			.sck        (sck),
+			.ssn        (s_ssn)
 		);
 
 	task init();
@@ -71,70 +96,77 @@ module tb_spi_m_and_s ();
 		s_spidata_i <= '0;
 		s_sfraddr_r <= '0;
 		s_spssn_i   <= 8'hff;
-		// s_ssn       <= '1;
 	endtask
 
 	task set_mode_m(int mode_sel_m);
 		m_sfrwe     <= '1;
-		@(posedge clk);
+		@(posedge m_clk);
 		m_sfraddr_w <= 2'b00;
 		m_sfraddr_r <= 3'b000;
 		// spidata_i <= 8'b0101_0000; // spi enable, master mode, mode 00
 		m_spidata_i <= mode_sel_m; // [6]:SPE, [4]:MSTR, mode 00 [3]:cpol, [2]: cpha
-		repeat(2)@(posedge clk);
+		repeat(2)@(posedge m_clk);
 		m_sfraddr_w <= 2'b01;
 		m_sfraddr_r <= 3'b001;
 		m_spidata_i <= 8'b0000_0001;
-		repeat(2)@(posedge clk);
+		repeat(2)@(posedge m_clk);
 		m_sfraddr_w <= 2'b10;
 		m_sfraddr_r <= 3'b010;
-		m_spidata_i <= 8'b0000_0011;	// clk / 16
-		repeat(2)@(posedge clk);
+		m_spidata_i <= 8'b0000_0011;	// m_clk / 16
+		repeat(2)@(posedge m_clk);
 		m_sfraddr_w <= 2'b11;
 		m_sfraddr_r <= 3'b011;
 		m_spidata_i <= 8'b0000_0000;  // ready to transfer data
-		@(posedge clk);
+		@(posedge m_clk);
+		read_sfr();
 	endtask
 
 	task set_mode_s(int mode_sel_s);
 		s_sfrwe     <= '1;
-		@(posedge clk);
+		@(posedge s_clk);
 		s_sfraddr_w <= 2'b00;
 		s_sfraddr_r <= 3'b000;
 		// spidata_i <= 8'b0101_0000; // spi enable, master mode, mode 00
 		s_spidata_i <= mode_sel_s; // [6]:SPE, [4]:MSTR, mode 00 [3]:cpol, [2]: cpha
-		repeat(2)@(posedge clk);
+		repeat(2)@(posedge s_clk);
 		s_sfraddr_w <= 2'b01;
 		s_sfraddr_r <= 3'b001;
 		s_spidata_i <= 8'b0000_0001;
-		repeat(2)@(posedge clk);
+		repeat(2)@(posedge s_clk);
 		s_sfraddr_w <= 2'b10;
 		s_sfraddr_r <= 3'b010;
 		s_spidata_i <= 8'b0000_0011;	// clk / 16
-		repeat(2)@(posedge clk);
+		repeat(2)@(posedge s_clk);
 		s_sfraddr_w <= 2'b11;
 		s_sfraddr_r <= 3'b011;
 		s_spidata_i <= 8'b0000_0000;  // ready to transfer data
-		@(posedge clk);
+		@(posedge s_clk);
+		read_sfr();
 	endtask
 
 	task transfer_data_master_slave(int iter_ms);
 		for(int it = 0; it < iter_ms; it++) begin
 			m_spidata_i <= $urandom_range(0,255);
 			s_spidata_i <= $urandom_range(0,255);
-			repeat(2)@(posedge clk);
+			repeat(2)@(posedge m_clk);
 			m_spssn_i  <= 8'hfe;
-			repeat(140)@(posedge clk);
+			repeat(140)@(posedge m_clk);
 			m_spssn_i  <= 8'hff;
-			repeat(10)@(posedge clk);
+			repeat(10)@(posedge m_clk);
 		end
+	endtask
+
+	task read_sfr();
+		m_sfraddr_r <= 3'b101 ;
+		s_sfraddr_r <= 3'b101 ;
+		repeat(2)@(posedge m_clk);	
 	endtask
 
 	initial begin
 		// do something
 
 		init();
-		repeat(10)@(posedge clk);
+		repeat(10)@(posedge m_clk);
 
 		set_mode_m(8'b0101_0000);
 		set_mode_s(8'b0100_0000);
@@ -152,19 +184,20 @@ module tb_spi_m_and_s ();
 		set_mode_s(8'b0100_0110);
 		transfer_data_master_slave(5);
 
-		repeat(10)@(posedge clk);
+		repeat(10)@(posedge m_clk);
 		$finish;
 	end
 	// dump wave
 	initial begin
 		$display("random seed : %0d", $unsigned($get_initial_random_seed()));
 		if ( $test$plusargs("fsdb") ) begin
-			$fsdbDumpfile("tb_spi_m_and_s.fsdb");
-			$fsdbDumpvars(0, "tb_spi_m_and_s");
+			$fsdbDumpfile("tb_spi_ms_master.fsdb");
+			$fsdbDumpvars(0, "tb_spi_ms_master");
 		end
 	end
 
 	initial begin
-		$sdf_annotate("/home/IC/SPI/Post_sim/Vsrc/spi_ms.sdf", inst_spi_m_and_s);  
+		$sdf_annotate("/home/IC/SPI/Post_sim/Vsrc/spi_ms.sdf", inst_spi_ms);  
 	end
+
 endmodule

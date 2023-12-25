@@ -12,7 +12,7 @@ module tb_spi_ms_master ();
 	logic s_clk;
 	initial begin
 		s_clk = '0;
-		#5
+		#2
 		s_clk = '1;
 		forever #(20) s_clk = ~s_clk;
 	end
@@ -48,7 +48,7 @@ module tb_spi_ms_master ();
 
 	logic       s_ssn;
 
-	spi_ms inst_spi_ms
+	spi_ms inst_spi_ms_master  	//netlist
 		(
 			.clk        (m_clk),
 			.rst_n      (rst_n),
@@ -67,7 +67,7 @@ module tb_spi_ms_master ();
 
 	assign s_ssn = m_spssn_o[0] ;
 
-	spi_ms_rtl inst_spi_ms_rtl
+	spi_ms_rtl inst_spi_ms_slave 	// rtl 
 		(
 			.clk        (s_clk),
 			.rst_n      (rst_n),
@@ -98,7 +98,22 @@ module tb_spi_ms_master ();
 		s_spssn_i   <= 8'hff;
 	endtask
 
-	task set_mode_m(int mode_sel_m);
+	task spssn_test();
+		for (int i = 0; i < 256; i++) begin
+			m_spssn_i <= i ;
+			s_spssn_i <= i ;
+			@(posedge m_clk) ;
+		end
+	endtask
+
+	task sfr_data_o_test();
+		for (int i = 0; i < 8; i++) begin
+			m_sfraddr_r <= i ;
+			s_sfraddr_r <= i ;
+		end
+	endtask
+
+	task set_mode_m(int mode_sel_m, int m_spibr);
 		m_sfrwe     <= '1;
 		@(posedge m_clk);
 		m_sfraddr_w <= 2'b00;
@@ -112,7 +127,7 @@ module tb_spi_ms_master ();
 		repeat(2)@(posedge m_clk);
 		m_sfraddr_w <= 2'b10;
 		m_sfraddr_r <= 3'b010;
-		m_spidata_i <= 8'b0000_0011;	// m_clk / 16
+		m_spidata_i <= {1'b0, m_spibr[5:3], 1'b0, m_spibr[2:0]};	// m_clk / 16
 		repeat(2)@(posedge m_clk);
 		m_sfraddr_w <= 2'b11;
 		m_sfraddr_r <= 3'b011;
@@ -144,13 +159,15 @@ module tb_spi_ms_master ();
 		read_sfr();
 	endtask
 
-	task transfer_data_master_slave(int iter_ms);
+	int m_spibr_post2 ;
+	task transfer_data_master_slave(int iter_ms, int m_spibr);
 		for(int it = 0; it < iter_ms; it++) begin
 			m_spidata_i <= $urandom_range(0,255);
 			s_spidata_i <= $urandom_range(0,255);
 			repeat(2)@(posedge m_clk);
 			m_spssn_i  <= 8'hfe;
-			repeat(140)@(posedge m_clk);
+			m_spibr_post2 = m_spibr[2:0] ;
+			repeat((m_spibr[5:3]+1) * $pow(2,m_spibr_post2+1) * 8 + 3)@(posedge m_clk);
 			m_spssn_i  <= 8'hff;
 			repeat(10)@(posedge m_clk);
 		end
@@ -167,26 +184,32 @@ module tb_spi_ms_master ();
 
 		init();
 		repeat(10)@(posedge m_clk);
+		for (int m_spibr = 0; m_spibr < 64; m_spibr++) begin
 
-		set_mode_m(8'b0101_0000);
-		set_mode_s(8'b0100_0000);
-		transfer_data_master_slave(5);
-
-		set_mode_m(8'b0101_0010);
-		set_mode_s(8'b0100_0010);
-		transfer_data_master_slave(5);
-
-		set_mode_m(8'b0101_0100);
-		set_mode_s(8'b0100_0100);
-		transfer_data_master_slave(5);
-
-		set_mode_m(8'b0101_0110);
-		set_mode_s(8'b0100_0110);
-		transfer_data_master_slave(5);
-
+			set_mode_m(8'b0101_0000, m_spibr);
+			set_mode_s(8'b0100_0000);
+			transfer_data_master_slave(2, m_spibr);
+	
+			set_mode_m(8'b0101_0010, m_spibr);
+			set_mode_s(8'b0100_0010);
+			transfer_data_master_slave(2, m_spibr);
+	
+			set_mode_m(8'b0101_0100, m_spibr);
+			set_mode_s(8'b0100_0100);
+			transfer_data_master_slave(2, m_spibr);
+	
+			set_mode_m(8'b0101_0110, m_spibr);
+			set_mode_s(8'b0100_0110);
+			transfer_data_master_slave(2, m_spibr);		
+		end
+		
+		repeat(10)@(posedge m_clk);
+		spssn_test();
+		sfr_data_o_test();
 		repeat(10)@(posedge m_clk);
 		$finish;
 	end
+
 	// dump wave
 	initial begin
 		$display("random seed : %0d", $unsigned($get_initial_random_seed()));
@@ -197,7 +220,7 @@ module tb_spi_ms_master ();
 	end
 
 	initial begin
-		$sdf_annotate("/home/IC/SPI/Post_sim/Vsrc/spi_ms.sdf", inst_spi_ms);  
+		$sdf_annotate("/home/IC/SPI/Post_sim/sdf/spi_ms_ss.sdf", inst_spi_ms_master);  
 	end
 
 endmodule

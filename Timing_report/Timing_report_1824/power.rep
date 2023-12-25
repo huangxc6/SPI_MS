@@ -1,0 +1,53 @@
+Loading db file '/home/operator015/spi/DBH_STD_1824HP18BA_HD5P0V_20Q1_V3.1.10/LIBERTY/DBH_1824HP18BA_HD5P0V_TT_5P00V_25C.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : spi_ms
+Version: S-2021.06-SP3
+Date   : Wed Dec 20 07:42:05 2023
+****************************************
+
+
+Library(s) Used:
+
+    DBH_1824HP18BA_HD5P0V_TT_5P00V_25C (File: /home/operator015/spi/DBH_STD_1824HP18BA_HD5P0V_20Q1_V3.1.10/LIBERTY/DBH_1824HP18BA_HD5P0V_TT_5P00V_25C.db)
+
+
+Operating Conditions: TT25_5P00   Library: DBH_1824HP18BA_HD5P0V_TT_5P00V_25C
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  =   1.5678 mW   (96%)
+  Net Switching Power  =  73.8695 uW    (4%)
+                         ---------
+Total Dynamic Power    =   1.6417 mW  (100%)
+
+Cell Leakage Power     = 154.7022 nW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register           1.5194        2.3651e-02        8.7438e+04            1.5431  (  93.99%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational  4.8387e-02        5.0167e-02        6.7264e+04        9.8621e-02  (   6.01%)
+--------------------------------------------------------------------------------------------------
+Total              1.5678 mW     7.3819e-02 mW     1.5470e+05 pW         1.6418 mW
+1

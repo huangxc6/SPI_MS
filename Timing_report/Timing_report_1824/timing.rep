@@ -1,0 +1,281 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 10
+Design : spi_ms
+Version: S-2021.06-SP3
+Date   : Wed Dec 20 07:42:04 2023
+****************************************
+
+Operating Conditions: TT25_5P00   Library: DBH_1824HP18BA_HD5P0V_TT_5P00V_25C
+Wire Load Model Mode: top
+
+  Startpoint: spssn_i[7] (input port clocked by clk)
+  Endpoint: spssn_o[7] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     5.00       5.00 r
+  spssn_i[7] (in)                          0.00       5.00 r
+  spssn_o[7] (out)                         0.00       5.00 r
+  data arrival time                                   5.00
+
+  clock clk (rise edge)                   41.00      41.00
+  clock network delay (ideal)              0.00      41.00
+  output external delay                   -5.00      36.00
+  data required time                                 36.00
+  -----------------------------------------------------------
+  data required time                                 36.00
+  data arrival time                                  -5.00
+  -----------------------------------------------------------
+  slack (MET)                                        31.00
+
+
+  Startpoint: spssn_i[6] (input port clocked by clk)
+  Endpoint: spssn_o[6] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     5.00       5.00 r
+  spssn_i[6] (in)                          0.00       5.00 r
+  spssn_o[6] (out)                         0.00       5.00 r
+  data arrival time                                   5.00
+
+  clock clk (rise edge)                   41.00      41.00
+  clock network delay (ideal)              0.00      41.00
+  output external delay                   -5.00      36.00
+  data required time                                 36.00
+  -----------------------------------------------------------
+  data required time                                 36.00
+  data arrival time                                  -5.00
+  -----------------------------------------------------------
+  slack (MET)                                        31.00
+
+
+  Startpoint: spssn_i[5] (input port clocked by clk)
+  Endpoint: spssn_o[5] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     5.00       5.00 r
+  spssn_i[5] (in)                          0.00       5.00 r
+  spssn_o[5] (out)                         0.00       5.00 r
+  data arrival time                                   5.00
+
+  clock clk (rise edge)                   41.00      41.00
+  clock network delay (ideal)              0.00      41.00
+  output external delay                   -5.00      36.00
+  data required time                                 36.00
+  -----------------------------------------------------------
+  data required time                                 36.00
+  data arrival time                                  -5.00
+  -----------------------------------------------------------
+  slack (MET)                                        31.00
+
+
+  Startpoint: spssn_i[4] (input port clocked by clk)
+  Endpoint: spssn_o[4] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     5.00       5.00 r
+  spssn_i[4] (in)                          0.00       5.00 r
+  spssn_o[4] (out)                         0.00       5.00 r
+  data arrival time                                   5.00
+
+  clock clk (rise edge)                   41.00      41.00
+  clock network delay (ideal)              0.00      41.00
+  output external delay                   -5.00      36.00
+  data required time                                 36.00
+  -----------------------------------------------------------
+  data required time                                 36.00
+  data arrival time                                  -5.00
+  -----------------------------------------------------------
+  slack (MET)                                        31.00
+
+
+  Startpoint: spssn_i[3] (input port clocked by clk)
+  Endpoint: spssn_o[3] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     5.00       5.00 r
+  spssn_i[3] (in)                          0.00       5.00 r
+  spssn_o[3] (out)                         0.00       5.00 r
+  data arrival time                                   5.00
+
+  clock clk (rise edge)                   41.00      41.00
+  clock network delay (ideal)              0.00      41.00
+  output external delay                   -5.00      36.00
+  data required time                                 36.00
+  -----------------------------------------------------------
+  data required time                                 36.00
+  data arrival time                                  -5.00
+  -----------------------------------------------------------
+  slack (MET)                                        31.00
+
+
+  Startpoint: spssn_i[2] (input port clocked by clk)
+  Endpoint: spssn_o[2] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     5.00       5.00 r
+  spssn_i[2] (in)                          0.00       5.00 r
+  spssn_o[2] (out)                         0.00       5.00 r
+  data arrival time                                   5.00
+
+  clock clk (rise edge)                   41.00      41.00
+  clock network delay (ideal)              0.00      41.00
+  output external delay                   -5.00      36.00
+  data required time                                 36.00
+  -----------------------------------------------------------
+  data required time                                 36.00
+  data arrival time                                  -5.00
+  -----------------------------------------------------------
+  slack (MET)                                        31.00
+
+
+  Startpoint: spssn_i[1] (input port clocked by clk)
+  Endpoint: spssn_o[1] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     5.00       5.00 r
+  spssn_i[1] (in)                          0.00       5.00 r
+  spssn_o[1] (out)                         0.00       5.00 r
+  data arrival time                                   5.00
+
+  clock clk (rise edge)                   41.00      41.00
+  clock network delay (ideal)              0.00      41.00
+  output external delay                   -5.00      36.00
+  data required time                                 36.00
+  -----------------------------------------------------------
+  data required time                                 36.00
+  data arrival time                                  -5.00
+  -----------------------------------------------------------
+  slack (MET)                                        31.00
+
+
+  Startpoint: spssn_i[0] (input port clocked by clk)
+  Endpoint: spssn_o[0] (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     5.00       5.00 r
+  spssn_i[0] (in)                          0.00       5.00 r
+  spssn_o[0] (out)                         0.00       5.00 r
+  data arrival time                                   5.00
+
+  clock clk (rise edge)                   41.00      41.00
+  clock network delay (ideal)              0.00      41.00
+  output external delay                   -5.00      36.00
+  data required time                                 36.00
+  -----------------------------------------------------------
+  data required time                                 36.00
+  data arrival time                                  -5.00
+  -----------------------------------------------------------
+  slack (MET)                                        31.00
+
+
+  Startpoint: spssn_i[7] (input port clocked by clk)
+  Endpoint: inst_spi_master/sck_edge_cnt_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    5.00       5.00 r
+  spssn_i[7] (in)                                         0.00       5.00 r
+  U147/Z (V5_ND4D1A)                                      0.26       5.26 f
+  U145/Z (V5_OAI21D1A)                                    1.08       6.33 r
+  U97/Z (V5_IVD1A)                                        1.04       7.37 f
+  U98/Z (V5_AD2D1A)                                       0.60       7.97 f
+  U96/Z (V5_NR3D1A)                                       0.58       8.55 r
+  inst_spi_master/U59/Z (V5_AO22D1A)                      0.45       9.01 r
+  inst_spi_master/sck_edge_cnt_reg[0]/D (V5_FD2D1A)       0.00       9.01 r
+  data arrival time                                                  9.01
+
+  clock clk (rise edge)                                  41.00      41.00
+  clock network delay (ideal)                             0.00      41.00
+  inst_spi_master/sck_edge_cnt_reg[0]/CK (V5_FD2D1A)      0.00      41.00 r
+  library setup time                                     -0.07      40.93
+  data required time                                                40.93
+  --------------------------------------------------------------------------
+  data required time                                                40.93
+  data arrival time                                                 -9.01
+  --------------------------------------------------------------------------
+  slack (MET)                                                       31.92
+
+
+  Startpoint: spssn_i[7] (input port clocked by clk)
+  Endpoint: inst_spi_master/sck_edge_cnt_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    5.00       5.00 r
+  spssn_i[7] (in)                                         0.00       5.00 r
+  U147/Z (V5_ND4D1A)                                      0.26       5.26 f
+  U145/Z (V5_OAI21D1A)                                    1.08       6.33 r
+  U97/Z (V5_IVD1A)                                        1.04       7.37 f
+  U98/Z (V5_AD2D1A)                                       0.60       7.97 f
+  U96/Z (V5_NR3D1A)                                       0.58       8.55 r
+  inst_spi_master/U58/Z (V5_AO22D1A)                      0.45       9.01 r
+  inst_spi_master/sck_edge_cnt_reg[1]/D (V5_FD2D1A)       0.00       9.01 r
+  data arrival time                                                  9.01
+
+  clock clk (rise edge)                                  41.00      41.00
+  clock network delay (ideal)                             0.00      41.00
+  inst_spi_master/sck_edge_cnt_reg[1]/CK (V5_FD2D1A)      0.00      41.00 r
+  library setup time                                     -0.07      40.93
+  data required time                                                40.93
+  --------------------------------------------------------------------------
+  data required time                                                40.93
+  data arrival time                                                 -9.01
+  --------------------------------------------------------------------------
+  slack (MET)                                                       31.92
+
+
+1

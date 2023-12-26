@@ -1,0 +1,8 @@
+./Vsrc/spi_ms.v
+./Vsrc/spi_ms_rtl.v
+./Vsrc/spi_master.v
+./Vsrc/spi_slave.v
+// ./Vsrc/tb_spi_ms_master.sv
+./Vsrc/tb_spi_ms_slave.sv
+./Vsrc/scc018v3ebcd_uhd50_rvt.v
+

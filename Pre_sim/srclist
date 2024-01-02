@@ -1,0 +1,10 @@
+./Testbench/tb_spi_ms.sv
+./Vsrc/spi_ms.v
+./Vsrc/spi_master.v
+./Vsrc/spi_slave.v
+
+/*
+./Testbench/tb_spi_slave.sv
+./Vsrc/spi_master.v
+./Vsrc/spi_slave.v
+*/

@@ -14,22 +14,22 @@
 // -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 module spi_slave (
-	input wire			clk  	  	,    // Clock
-	input wire			rst_n	  	,  	 // Asynchronous reset active low
+	input wire			clk  	  		,    // Clock
+	input wire			rst_n	  		,  	 // Asynchronous reset active low
 
-	input wire	[7:0]	data_s 		,
+	input wire	[7:0]	data_s 			,
 	input wire	[7:0]	spcon_s 		,
 
     output reg          data_finish_s   ,
-    output reg  [7:0]   data_r_s	,
+    output reg  [7:0]   data_r_s	 	,
 
 
 	// spi data transfer wire
-	input  wire			mosi 		,
-	output reg			miso 		,
+	input  wire			mosi 			,
+	output reg			miso 			,
 
 	// spi clk and slave select
-	input wire			sck 		,
+	input wire			sck 			,
 	input wire			ssn		
 	
 );
@@ -49,11 +49,7 @@ module spi_slave (
 	wire   tr_en 		   				 ; 	
 	assign tr_en = ~ssn ; // tx or rx enable
 
-	// reg tr_done ; // when tx or rx done , set it
-
 	reg [2:0] bit_count ; // bit count to transfer data
-	// reg [7:0] data_r	; // the 8 bits data register
-
 
 	always @(posedge clk or negedge rst_n) begin
 		if(~rst_n) begin
@@ -80,7 +76,6 @@ module spi_slave (
 					sck_edge_cnt <= sck_edge_level ? sck_edge_cnt + 1 : sck_edge_cnt ;
 				end
 			end else begin
-				// sck_edge_level <= 0 ;
 				sck_edge_cnt <= 0 ;
 			end	
 		end
@@ -129,7 +124,7 @@ module spi_slave (
 		end
 	end
 
-	// grnerate tr_done signal 
+	// grnerate tr_finish signal 
 	always @(posedge clk or negedge rst_n) begin
 		if(~rst_n) begin
 			data_finish_s <= 1'b0;

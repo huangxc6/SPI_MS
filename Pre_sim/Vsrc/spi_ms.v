@@ -1,11 +1,11 @@
 module spi_ms (
-    input wire          clk    ,
-    input wire          rst_n  ,
+    input wire          clk        ,
+    input wire          rst_n      ,
 
     // sfr interface
-    input wire [1:0]    sfraddr_w ,
-    input wire          sfrwe     ,
-    input wire [7:0]    spidata_i ,
+    input wire [1:0]    sfraddr_w  ,
+    input wire          sfrwe      ,
+    input wire [7:0]    spidata_i  ,
 
     input wire [2:0]    sfraddr_r  ,
     output reg [7:0]    sfr_data_o ,
@@ -14,29 +14,29 @@ module spi_ms (
     output wire [7:0]   spssn_o    ,
 
     // spi interface
-    inout wire          mosi ,
-    inout wire          miso ,
-    inout wire          sck  ,
+    inout wire          mosi       ,
+    inout wire          miso       ,
+    inout wire          sck        ,
     input wire          ssn
 );
-    reg  [7:0] spicr1 ;   
-    reg  [7:0] spicr2 ;  
-    reg  [7:0] spibr  ;  
-    reg  [7:0] spisr  ;
-    reg  [7:0] spidr1 ; 
-    wire  [7:0] spidr2 ;
+    reg  [7:0]  spicr1  ;   
+    reg  [7:0]  spicr2  ;  
+    reg  [7:0]  spibr   ;  
+    reg  [7:0]  spisr   ;
+    reg  [7:0]  spidr1  ; 
+    wire  [7:0] spidr2  ;
 
-    wire [7:0] spidr2_m;
-    wire [7:0] spidr2_s;
-    
-    wire data_finish_m;
-    wire data_finish_s;
+    wire [7:0] spidr2_m ;
+    wire [7:0] spidr2_s ;
+     
+    wire data_finish_m  ;
+    wire data_finish_s  ;
 
     wire miso_m ;
-    wire mosi_m ;
-    wire sck_m  ;
     wire miso_s ;
+    wire mosi_m ;
     wire mosi_s ;
+    wire sck_m  ;
     wire sck_s  ;
 
     wire         intspi ;
@@ -49,14 +49,14 @@ module spi_ms (
     
     wire mstr = spicr1[4] ; // mstr = 0 means slave model, mstr = 1 means master model
 
-    assign sck   = mstr ? sck_m : 1'bz ;
-    assign sck_s = mstr ? 1'bz  : sck  ;
+    assign sck    = mstr ? sck_m : 1'bz  ;
+    assign sck_s  = mstr ? 1'bz  : sck   ;
 
-    assign mosi   = mstr ? mosi_m : 1'bz   ;
-    assign mosi_s = mstr ? 1'bz   : mosi ;
+    assign mosi   = mstr ? mosi_m: 1'bz  ;
+    assign mosi_s = mstr ? 1'bz  : mosi  ;
 
-    assign miso_m = mstr ? miso : 1'bz     ;
-    assign miso   = mstr ? 1'bz : miso_s   ;
+    assign miso_m = mstr ? miso  : 1'bz  ;
+    assign miso   = mstr ? 1'bz  : miso_s;
 
 
 /*-----------------------------------------------\
@@ -81,34 +81,33 @@ module spi_ms (
 
     spi_master inst_spi_master
         (
-            .clk           (clk),
-            .rst_n         (rst_n_sync),
-            .data_m        (spidr1),
-            .spcon         (spicr1),
-            .spibr         (spibr),
-            .spssn         (spssn_i),
-            .data_r_m      (spidr2_m),
-            .data_finish_m (data_finish_m)   ,
-            .miso          (miso_m),
-            .mosi          (mosi_m),
-            .sck           (sck_m),
-            .ssn           (spssn_o)
+            .clk           (clk          ),
+            .rst_n         (rst_n_sync   ),
+            .data_m        (spidr1       ),
+            .spcon         (spicr1       ),
+            .spibr         (spibr        ),
+            .spssn         (spssn_i      ),
+            .data_r_m      (spidr2_m     ),
+            .data_finish_m (data_finish_m),
+            .miso          (miso_m       ),
+            .mosi          (mosi_m       ),
+            .sck           (sck_m        ),
+            .ssn           (spssn_o      )
         );
 
     spi_slave inst_spi_slave
         (
-            .clk           (clk),
-            .rst_n         (rst_n_sync),
-            .data_s        (spidr1),
-            .spcon_s       (spicr1),
+            .clk           (clk          ),
+            .rst_n         (rst_n_sync   ),
+            .data_s        (spidr1       ),
+            .spcon_s       (spicr1       ),
             .data_finish_s (data_finish_s),
-            .data_r_s      (spidr2_s),
-            .mosi          (mosi_s),
-            .miso          (miso_s),
-            .sck           (sck_s),
-            .ssn           (ssn)
+            .data_r_s      (spidr2_s     ),
+            .mosi          (mosi_s       ),
+            .miso          (miso_s       ),
+            .sck           (sck_s        ),
+            .ssn           (ssn          )
         );
-
 
 
     assign spidr2 = mstr ? spidr2_m : spidr2_s ;  // mstr = 1, master model
